@@ -36,6 +36,7 @@ partial class MainWindow
         //
         // questionTextLabel
         //
+        questionTextLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right));
         questionTextLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
         questionTextLabel.Location = new System.Drawing.Point(12, 9);
         questionTextLabel.Name = "questionTextLabel";
