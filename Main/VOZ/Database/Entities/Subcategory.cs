@@ -13,9 +13,9 @@ public sealed class Subcategory
     public int CategoryId { get; set; }
 
     [Column(ColumnNames.NAME)]
-    public string Name { get; set; } = null!;
+    public string Name { get; set; } = default!;
 
-    public Category Category { get; set; } = null!;
+    public Category Category { get; set; } = default!;
 
     public ICollection<Question> Questions { get; set; } = new List<Question>();
 }

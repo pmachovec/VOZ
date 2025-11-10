@@ -22,9 +22,10 @@ public sealed class VozDbContext(DbContextOptions<VozDbContext> _options) : DbCo
             answerBuilder.HasKey(answer => answer.Id);
             answerBuilder.Property(answer => answer.Id).ValueGeneratedNever();
 
-            answerBuilder.
-                HasOne(answer => answer.Question)
+            answerBuilder
+                .HasOne(answer => answer.Question)
                 .WithMany(question => question.Answers)
+                .HasForeignKey(answer => answer.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -40,13 +41,9 @@ public sealed class VozDbContext(DbContextOptions<VozDbContext> _options) : DbCo
             questionBuilder.Property(question => question.Id).ValueGeneratedNever();
 
             questionBuilder
-                .HasOne(question => question.Category)
-                .WithMany(category => category.Questions)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            questionBuilder
                 .HasOne(question => question.Subcategory)
                 .WithMany(subcategory => subcategory.Questions)
+                .HasForeignKey(question => question.SubcategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -58,6 +55,7 @@ public sealed class VozDbContext(DbContextOptions<VozDbContext> _options) : DbCo
             questionImageBuilder
                 .HasOne(questionImage => questionImage.Question)
                 .WithMany(question => question.QuestionImages)
+                .HasForeignKey(questionImage => questionImage.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
@@ -69,6 +67,7 @@ public sealed class VozDbContext(DbContextOptions<VozDbContext> _options) : DbCo
             subcategoryBuilder
                 .HasOne(subcategory => subcategory.Category)
                 .WithMany(category => category.Subcategories)
+                .HasForeignKey(subcategory => subcategory.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
     }

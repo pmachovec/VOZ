@@ -21,5 +21,5 @@ public sealed class Answer
     [Column(ColumnNames.IS_CORRECT)]
     public bool IsCorrect { get; set; }
 
-    public Question Question { get; set; } = null!;
+    public Question Question { get; set; } = default!;
 }

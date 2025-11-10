@@ -10,9 +10,7 @@ public sealed class Category
     public int Id { get; set; }
 
     [Column(ColumnNames.NAME)]
-    public string Name { get; set; } = null!;
-
-    public ICollection<Question> Questions { get; set; } = new List<Question>();
+    public string Name { get; set; } = default!;
 
     public ICollection<Subcategory> Subcategories { get; set; } = new List<Subcategory>();
 }

@@ -23,9 +23,9 @@ public sealed class Question
 
     public ICollection<Answer> Answers { get; set; } = new List<Answer>();
 
-    public Category Category { get; set; } = default!;
-
     public ICollection<QuestionImage> QuestionImages { get; set; } = new List<QuestionImage>();
 
     public Subcategory Subcategory { get; set; } = default!;
+
+    public Category Category => Subcategory.Category;
 }

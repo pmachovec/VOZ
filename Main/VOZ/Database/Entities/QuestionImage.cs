@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using VOZ.Database.Constants;
 
 namespace VOZ.Database.Entities;
@@ -22,5 +21,5 @@ public class QuestionImage
     [Column(ColumnNames.BBOX)]
     public string? Bbox { get; set; }
 
-    public virtual Question Question { get; set; } = null!;
+    public virtual Question Question { get; set; } = default!;
 }
