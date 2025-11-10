@@ -1,6 +1,6 @@
 ﻿namespace VOZ;
 
-partial class Form1
+partial class MainWindow
 {
     /// <summary>
     /// Required designer variable.
@@ -36,19 +36,20 @@ partial class Form1
         //
         // questionTextLabel
         //
+        questionTextLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
         questionTextLabel.Location = new System.Drawing.Point(12, 9);
         questionTextLabel.Name = "questionTextLabel";
-        questionTextLabel.Size = new System.Drawing.Size(776, 86);
+        questionTextLabel.Size = new System.Drawing.Size(776, 25);
         questionTextLabel.TabIndex = 0;
-        questionTextLabel.Text = "label1";
+        questionTextLabel.Text = "Question text";
         //
-        // Form1
+        // MainWindow
         //
         AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
         AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         ClientSize = new System.Drawing.Size(800, 450);
         Controls.Add(questionTextLabel);
-        Text = "Form1";
+        Text = "VOZ";
         ResumeLayout(false);
     }
 
