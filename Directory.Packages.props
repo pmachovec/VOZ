@@ -1,0 +1,12 @@
+<Project>
+
+    <PropertyGroup>
+        <EFCoreVersion>8.0.21</EFCoreVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EFCoreVersion)" />
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EFCoreVersion)" />
+    </ItemGroup>
+
+</Project>
