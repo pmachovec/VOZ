@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using VOZ.Database;
+
 namespace VOZ;
 
 internal static class Program
@@ -8,9 +12,14 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
-        Application.Run(new MainWindow());
+        var services = new ServiceCollection();
+
+        _ = services
+            .AddDbContext<VozDbContext>(optionsBuilder => optionsBuilder.UseSqlite("Data Source=Database/asciipinyin.sqlite"))
+            .AddTransient<MainWindow>();
+
+        using var provider = services.BuildServiceProvider();
+        Application.Run(provider.GetRequiredService<MainWindow>());
     }
 }

@@ -3,17 +3,8 @@ using VOZ.Database.Entities;
 
 namespace VOZ.Database;
 
-public sealed class VozDbContext : DbContext
+public sealed class VozDbContext(DbContextOptions<VozDbContext> _options) : DbContext(_options)
 {
-    public VozDbContext()
-    {
-    }
-
-    public VozDbContext(DbContextOptions<VozDbContext> options)
-        : base(options)
-    {
-    }
-
     public DbSet<Answer> Answers { get; set; }
 
     public DbSet<Category> Categories { get; set; }
@@ -23,10 +14,6 @@ public sealed class VozDbContext : DbContext
     public DbSet<QuestionImage> QuestionImages { get; set; }
 
     public DbSet<Subcategory> Subcategories { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("Data Source=Database\\voz.sqlite");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
