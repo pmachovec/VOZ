@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using VOZ.Database;
+using VOZ.Database.Services;
 
 namespace VOZ;
 
@@ -17,7 +18,8 @@ internal static class Program
 
         _ = services
             .AddDbContext<VozDbContext>(optionsBuilder => optionsBuilder.UseSqlite("Data Source=Database/asciipinyin.sqlite"))
-            .AddTransient<MainWindow>();
+            .AddTransient<MainWindow>()
+            .AddTransient<IQuestionService, QuestionService>();
 
         using var provider = services.BuildServiceProvider();
         Application.Run(provider.GetRequiredService<MainWindow>());
