@@ -54,8 +54,8 @@ public sealed class VozDbContext(DbContextOptions<VozDbContext> _options) : DbCo
 
             questionImageBuilder
                 .HasOne(questionImage => questionImage.Question)
-                .WithMany(question => question.QuestionImages)
-                .HasForeignKey(questionImage => questionImage.QuestionId)
+                .WithOne(question => question.QuestionImage)
+                .HasForeignKey<QuestionImage>(questionImage => questionImage.QuestionId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 

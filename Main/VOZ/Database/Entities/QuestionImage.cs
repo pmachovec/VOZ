@@ -4,7 +4,7 @@ using VOZ.Database.Constants;
 namespace VOZ.Database.Entities;
 
 [Table(TableNames.QUESTION_IMAGES)]
-public class QuestionImage
+public sealed class QuestionImage
 {
     [Column(ColumnNames.ID)]
     public int Id { get; set; }
@@ -21,5 +21,5 @@ public class QuestionImage
     [Column(ColumnNames.BBOX)]
     public string? Bbox { get; set; }
 
-    public virtual Question Question { get; set; } = default!;
+    public Question Question { get; set; } = default!;
 }

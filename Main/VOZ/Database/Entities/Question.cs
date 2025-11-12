@@ -23,7 +23,7 @@ public sealed class Question
 
     public ICollection<Answer> Answers { get; set; } = new List<Answer>();
 
-    public ICollection<QuestionImage> QuestionImages { get; set; } = new List<QuestionImage>();
+    public QuestionImage? QuestionImage { get; set; }
 
     public Subcategory Subcategory { get; set; } = default!;
 
