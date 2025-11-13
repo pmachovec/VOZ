@@ -1,12 +1,15 @@
 <Project>
 
     <PropertyGroup>
-        <EFCoreVersion>8.0.21</EFCoreVersion>
+        <EFCoreVersion>10.0.0</EFCoreVersion>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageVersion Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)"/>
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EFCoreVersion)" />
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EFCoreVersion)" />
+        <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0"/>
+        <PackageVersion Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
     </ItemGroup>
 
 </Project>
