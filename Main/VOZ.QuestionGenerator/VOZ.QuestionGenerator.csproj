@@ -10,4 +10,14 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Remove="Database\voz.sqlite" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Database\voz.sqlite">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </EmbeddedResource>
+    </ItemGroup>
+
 </Project>

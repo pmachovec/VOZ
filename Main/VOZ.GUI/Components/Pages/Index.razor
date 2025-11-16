@@ -1,3 +1,6 @@
 @page "/"
+@inherits IndexBase
 
-Question text
+<div class="fw-bolder">
+    @QuestionGenerator.GetNextQuestion()?.Text
+</div>

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using VOZ.QuestionGenerator;
 
 namespace VOZ.GUI;
 
@@ -12,7 +13,9 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .ConfigureFonts(fonts => fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"));
 
-        builder.Services.AddMauiBlazorWebView();
+        builder.Services
+            .AddQuestionGenerator()
+            .AddMauiBlazorWebView();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
