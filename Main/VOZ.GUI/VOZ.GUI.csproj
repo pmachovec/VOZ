@@ -60,11 +60,27 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Maui.Controls" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" />
+        <PackageReference Include="Microsoft.Extensions.Localization" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\VOZ.QuestionGenerator\VOZ.QuestionGenerator.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Resources\Translations\VOZTranslations.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+            <LastGenOutput>VOZTranslations.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Resources\Translations\VOZTranslations.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>VOZTranslations.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>
