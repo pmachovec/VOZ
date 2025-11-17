@@ -3,7 +3,7 @@ using VOZ.QuestionGenerator;
 
 namespace VOZ.GUI.Components.Pages;
 
-public class IndexBase : ComponentBase
+public class QuestionnaireBase : ComponentBase
 {
     [Inject]
     protected IQuestionGenerator QuestionGenerator { get; set; } = default!;
