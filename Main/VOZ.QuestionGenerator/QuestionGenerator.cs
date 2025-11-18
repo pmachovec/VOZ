@@ -7,7 +7,8 @@ namespace VOZ.QuestionGenerator;
 internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDbContext) : IQuestionGenerator
 {
     private Question[]? _questions;
-    private int _pointer;
+
+    public int QuestionCounter { get; private set; }
 
     public Question? GetNextQuestion()
     {
@@ -16,8 +17,8 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
             throw new InvalidOperationException("Questions no set up!");
         }
 
-        // This is correct, '_pointer++' returns the initial value before the increment.
-        return _pointer >= _questions.Length ? null : _questions[_pointer++];
+        // This is correct, 'QuestionCounter++' returns the initial value before the increment.
+        return QuestionCounter >= _questions.Length ? null : _questions[QuestionCounter++];
     }
 
     public Question? GetPreviousQuestion()
@@ -27,13 +28,13 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
             throw new InvalidOperationException("Questions no set up!");
         }
 
-        // This is correct, '_pointer--' returns the initial value before the decrement.
-        return _pointer <= 0 ? null : _questions[_pointer--];
+        // This is correct, 'QuestionCounter--' returns the initial value before the decrement.
+        return QuestionCounter <= 0 ? null : _questions[QuestionCounter--];
     }
 
     public async Task SetUpQuestionsAsync(CancellationToken cancellationToken)
     {
-        _pointer = 0;
+        QuestionCounter = 0;
 
         var questionsArray = await _questionGeneratorDbContext
             .Questions

@@ -1,6 +1,11 @@
+@using VOZ.GUI.Resources.Translations
+
 @page "/questionnaire"
 @inherits QuestionnaireBase
 
+<div hidden="@IsQuestionCounterHidden">
+    @($"{Localizer[VOZTranslations.Question]} {QuestionGenerator.QuestionCounter}:")
+</div>
 <div class="fw-bolder">
     @Text
 </div>

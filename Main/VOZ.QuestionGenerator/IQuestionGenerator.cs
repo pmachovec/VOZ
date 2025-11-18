@@ -4,6 +4,8 @@ namespace VOZ.QuestionGenerator;
 
 public interface IQuestionGenerator
 {
+    int QuestionCounter { get; }
+
     Question? GetNextQuestion();
 
     Question? GetPreviousQuestion();

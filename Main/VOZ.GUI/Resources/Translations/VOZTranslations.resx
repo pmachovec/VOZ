@@ -24,4 +24,7 @@
     <data name="QuestionsLoading" xml:space="preserve">
         <value>Questions loading</value>
     </data>
+    <data name="Question" xml:space="preserve">
+        <value>Question</value>
+    </data>
 </root>

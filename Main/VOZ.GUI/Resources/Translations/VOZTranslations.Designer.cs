@@ -60,6 +60,15 @@ namespace VOZ.GUI.Resources.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Question.
+        /// </summary>
+        public static string Question {
+            get {
+                return ResourceManager.GetString("Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Questions loading.
         /// </summary>
         public static string QuestionsLoading {

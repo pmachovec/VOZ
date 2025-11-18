@@ -17,4 +17,7 @@
     <data name="QuestionsLoading" xml:space="preserve">
         <value>Načítání otázek</value>
     </data>
+    <data name="Question" xml:space="preserve">
+        <value>Otázka</value>
+    </data>
 </root>

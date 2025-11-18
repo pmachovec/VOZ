@@ -13,6 +13,8 @@ public class QuestionnaireBase : ComponentBase
     [Inject]
     protected IQuestionGenerator QuestionGenerator { get; set; } = default!;
 
+    protected bool IsQuestionCounterHidden = true;
+
     protected string Text = string.Empty;
 
     protected override void OnInitialized() => Text = $"{Localizer[VOZTranslations.QuestionsLoading]}...";
@@ -22,6 +24,7 @@ public class QuestionnaireBase : ComponentBase
         if (firstRender)
         {
             await QuestionGenerator.SetUpQuestionsAsync(CancellationToken.None);
+            IsQuestionCounterHidden = false;
             Text = QuestionGenerator.GetNextQuestion()?.Text ?? string.Empty;
             StateHasChanged();
         }
