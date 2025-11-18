@@ -14,4 +14,7 @@
     <data name="Start" xml:space="preserve">
         <value>Začít</value>
     </data>
+    <data name="QuestionsLoading" xml:space="preserve">
+        <value>Načítání otázek</value>
+    </data>
 </root>

@@ -7,5 +7,7 @@ public interface IQuestionGenerator
     Question? GetNextQuestion();
 
     Question? GetPreviousQuestion();
+
+    Task SetUpQuestionsAsync(CancellationToken cancellationToken);
 }
 
