@@ -13,18 +13,16 @@ public class QuestionnaireBase : ComponentBase
     [Inject]
     protected IQuestionGenerator QuestionGenerator { get; set; } = default!;
 
-    protected bool IsQuestionCounterHidden = true;
+    protected bool IsLoading = true;
 
     protected string Text = string.Empty;
-
-    protected override void OnInitialized() => Text = $"{Localizer[VOZTranslations.QuestionsLoading]}...";
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             await QuestionGenerator.SetUpQuestionsAsync(CancellationToken.None);
-            IsQuestionCounterHidden = false;
+            IsLoading = false;
             Text = QuestionGenerator.GetNextQuestion()?.Text ?? string.Empty;
             StateHasChanged();
         }

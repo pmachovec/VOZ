@@ -3,9 +3,29 @@
 @page "/questionnaire"
 @inherits QuestionnaireBase
 
-<div hidden="@IsQuestionCounterHidden">
-    @($"{Localizer[VOZTranslations.Question]} {QuestionGenerator.QuestionCounter}:")
+<div class="fw-bolder" hidden="@(!IsLoading)">
+    @($"{Localizer[VOZTranslations.QuestionsLoading]}...")
 </div>
-<div class="fw-bolder">
-    @Text
+<div hidden="@IsLoading">
+    <div>
+        @($"{Localizer[VOZTranslations.Question]} {QuestionGenerator.QuestionCounter}:")
+    </div>
+
+    <div class="fw-bolder">
+        <div>
+            @Text
+        </div>
+
+        <div>
+            @*
+            The href="" causes Blazor to apply the 'active' class to the NavLink when on the /questionnaire route.
+            This class is applied to all links having the href value as prefix, and the empty value is prefix of everythign.
+            Applying the class causes setting the background to darker gray instead of the desired light gray.
+            The NavLinkMatch.All ensures that the class would be applied only if the current route exactly matched the href value.
+            *@
+            <NavLink class="border border-dark btn btn-light btn-lg" href="" Match="NavLinkMatch.All">
+                @Localizer[VOZTranslations.Restart]
+            </NavLink>
+        </div>
+    </div>
 </div>
