@@ -13,19 +13,21 @@
     </head>
 
     <body>
-
         <div class="status-bar-safe-area"></div>
 
         <div id="app">
-            <div class="fw-bolder p-5">Loading...</div>
+            <div class="fw-bolder p-5">
+                <span id="preparation">Loading</span>...
+            </div>
         </div>
 
         <div id="blazor-error-ui" data-nosnippet>
-            An unhandled error has occurred.
-            <a href="." class="reload">Reload</a>
+            <span id="unhandled-error">An unhandled error has occurred</span>.
+            <a href="." class="reload"><span id="reload">Reload</span></a>
             <span class="dismiss">🗙</span>
         </div>
 
+        <script src="js/indexTranslations.js"></script>
         <script src="_framework/blazor.webview.js" autostart="false"></script>
     </body>
 </html>
