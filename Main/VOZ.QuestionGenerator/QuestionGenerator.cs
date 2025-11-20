@@ -38,11 +38,10 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
 
         var questionsArray = await _questionGeneratorDbContext
             .Questions
+            .Include(question => question.Answers)
             .ToArrayAsync(cancellationToken);
 
-        _questions =  Random.Shared.GetItems(
-            questionsArray,
-            _questionGeneratorDbContext.Questions.Count()
-        );
+        Random.Shared.Shuffle(questionsArray);
+        _questions = questionsArray;
     }
 }
