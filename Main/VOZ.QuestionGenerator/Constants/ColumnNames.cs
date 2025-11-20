@@ -2,8 +2,8 @@
 
 public static class ColumnNames
 {
-    public const string BBOX  = "bbox";
     public const string CATEGORY_ID = "category_id";
+    public const string HEIGHT = "height";
     public const string ID = "id";
     public const string IMAGE = "image";
     public const string IS_CORRECT = "is_correct";
@@ -14,4 +14,5 @@ public static class ColumnNames
     public const string QUESTION_ID = "question_id";
     public const string SUBCATEGORY_ID = "subcategory_id";
     public const string TEXT = "text";
+    public const string WIDTH = "width";
 }

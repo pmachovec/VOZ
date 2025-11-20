@@ -1,6 +1,7 @@
 @using System.Globalization
 @using VOZ.GUI.Resources.Translations
 
+@* Forget about using a constant here. You cannot incorporate a string variable to the @page directive. Put up with it. *@
 @page "/questionnaire"
 @inherits QuestionnaireBase
 
@@ -15,6 +16,20 @@
     <div class="fw-bolder">
         @Text
     </div>
+
+    @if (PotentialImage is { } existingImage)
+    {
+        <div>
+            @if (existingImage.Image is { Length: > 0 } bytes)
+            {
+                <img class="img-fluid"
+                     src="@($"data:{existingImage.MimeType};base64,{System.Convert.ToBase64String(bytes)}")"
+                     width="@existingImage.Width"
+                     height="@existingImage.Height"
+                     alt="question_image" />
+            }
+        </div>
+    }
 
     <div class="py-4">
         @foreach (var answer in Answers)

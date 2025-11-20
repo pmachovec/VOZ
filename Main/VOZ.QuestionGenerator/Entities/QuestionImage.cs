@@ -18,8 +18,11 @@ public sealed class QuestionImage
     [Column(ColumnNames.MIME_TYPE)]
     public string? MimeType { get; set; }
 
-    [Column(ColumnNames.BBOX)]
-    public string? Bbox { get; set; }
+    [Column(ColumnNames.HEIGHT)]
+    public float Height { get; set; }
+
+    [Column(ColumnNames.WIDTH)]
+    public float Width { get; set; }
 
     public Question Question { get; set; } = default!;
 }

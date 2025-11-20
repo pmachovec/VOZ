@@ -39,6 +39,7 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
         var questionsArray = await _questionGeneratorDbContext
             .Questions
             .Include(question => question.Answers)
+            .Include(question => question.QuestionImage)
             .ToArrayAsync(cancellationToken);
 
         Random.Shared.Shuffle(questionsArray);

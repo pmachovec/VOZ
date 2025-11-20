@@ -20,6 +20,8 @@ public class QuestionnaireBase : ComponentBase
 
     protected string Text = string.Empty;
 
+    protected QuestionImage? PotentialImage;
+
     protected Answer[] Answers = [];
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -37,6 +39,7 @@ public class QuestionnaireBase : ComponentBase
                 nextQuestion.Answers = Answers;
 
                 Text = nextQuestion.Text;
+                PotentialImage = nextQuestion.QuestionImage;
                 answeredQuestions.Add(nextQuestion);
             }
 
