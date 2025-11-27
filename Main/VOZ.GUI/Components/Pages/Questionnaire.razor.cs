@@ -46,4 +46,19 @@ public class QuestionnaireBase : ComponentBase
             StateHasChanged();
         }
     }
+
+    // Designed for PNG images.
+    // If different mime types are present in the DB, other specific implementations must be created.
+    protected static (int Width, int Height)? GetImageDimensions(byte[] bytes)
+    {
+        if (bytes.Length < 24)
+        {
+            return null;
+        }
+
+        var width = (bytes[16] << 24) | (bytes[17] << 16) | (bytes[18] << 8) | bytes[19];
+        var height = (bytes[20] << 24) | (bytes[21] << 16) | (bytes[22] << 8) | bytes[23];
+
+        return (width, height);
+    }
 }

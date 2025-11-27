@@ -17,17 +17,19 @@
         @Text
     </div>
 
-    @if (PotentialImage is { } existingImage)
+    @if (PotentialImage is { Image: { Length: > 0 } bytes } existingImage)
     {
         <div>
-            @if (existingImage.Image is { Length: > 0 } bytes)
-            {
-                <img class="img-fluid"
-                     src="@($"data:{existingImage.MimeType};base64,{System.Convert.ToBase64String(bytes)}")"
-                     width="@existingImage.Width"
-                     height="@existingImage.Height"
-                     alt="question_image" />
+            @{
+                var imageDimensions = GetImageDimensions(bytes);
             }
+
+            <img
+                class="img-fluid"
+                src="@($"data:{existingImage.MimeType};base64,{System.Convert.ToBase64String(bytes)}")"
+                width="@(imageDimensions?.Width)"
+                height="@(imageDimensions?.Height)"
+                alt="question_image" />
         </div>
     }
 
