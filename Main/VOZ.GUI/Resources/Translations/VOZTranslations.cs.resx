@@ -23,4 +23,10 @@
     <data name="Restart" xml:space="preserve">
         <value>Restart</value>
     </data>
+    <data name="Badly" xml:space="preserve">
+        <value>Blbě</value>
+    </data>
+    <data name="Nice" xml:space="preserve">
+        <value>Hezky</value>
+    </data>
 </root>

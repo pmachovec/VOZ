@@ -33,18 +33,24 @@
         </div>
     }
 
-    <div class="py-4">
+    <div class="pt-4">
         @foreach (var answer in Answers)
         {
             <div class="pb-2 w-100">
-                <button class="border border-dark btn btn-light text-start w-100">
+                <button
+                    class="border border-dark btn btn-light text-start w-100"
+                    @onclick="() => SubmitAnswer(answer)">
                     @(char.ToUpper(answer.Text[0], CultureInfo.InvariantCulture) + answer.Text[1..])
                 </button>
             </div>
         }
     </div>
 
-    <div class="fw-bolder">
+    <p class="h1 fw-bold @VerdictClass">
+        @Verdict
+    </p>
+
+    <div class="fw-bolder pt-4">
         @*
         The href="" causes Blazor to apply the 'active' class to the NavLink when on the /questionnaire route.
         This class is applied to all links having the href value as prefix, and the empty value is prefix of everythign.

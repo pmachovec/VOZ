@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using VOZ.GUI.Components.Entities;
+using VOZ.GUI.Constants;
 using VOZ.GUI.Resources.Translations;
 using VOZ.QuestionGenerator;
 using VOZ.QuestionGenerator.Entities;
@@ -8,7 +10,8 @@ namespace VOZ.GUI.Components.Pages;
 
 public class QuestionnaireBase : ComponentBase
 {
-    private List<Question> answeredQuestions = [];
+    private Question? _nextQuestion;
+    private List<AnsweredQuestion> answeredQuestions = [];
 
     [Inject]
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
@@ -24,26 +27,40 @@ public class QuestionnaireBase : ComponentBase
 
     protected Answer[] Answers = [];
 
+    protected string Verdict = string.Empty;
+
+    protected string VerdictClass = string.Empty;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             await QuestionGenerator.SetUpQuestionsAsync(CancellationToken.None);
             IsLoading = false;
-
-            if (QuestionGenerator.GetNextQuestion() is { } nextQuestion)
-            {
-                // Shuffle questions order
-                Answers = nextQuestion.Answers.ToArray();
-                Random.Shared.Shuffle(Answers);
-                nextQuestion.Answers = Answers;
-
-                Text = nextQuestion.Text;
-                PotentialImage = nextQuestion.QuestionImage;
-                answeredQuestions.Add(nextQuestion);
-            }
-
+            SetUpNextQuestion();
             StateHasChanged();
+        }
+    }
+
+    protected void SubmitAnswer(Answer answer)
+    {
+        if (_nextQuestion is null)
+        {
+            return;
+        }
+
+        var answeredQuestion = new AnsweredQuestion(_nextQuestion, answer);
+        answeredQuestions.Add(answeredQuestion);
+
+        if (answer.IsCorrect)
+        {
+            Verdict = $"{Localizer[VOZTranslations.Nice]}!!!";
+            VerdictClass = CssClasses.TEXT_SUCCESS;
+        }
+        else
+        {
+            Verdict = $"{Localizer[VOZTranslations.Badly]}!!!";
+            VerdictClass = CssClasses.TEXT_DANGER;
         }
     }
 
@@ -60,5 +77,21 @@ public class QuestionnaireBase : ComponentBase
         var height = (bytes[20] << 24) | (bytes[21] << 16) | (bytes[22] << 8) | bytes[23];
 
         return (width, height);
+    }
+
+    private void SetUpNextQuestion()
+    {
+        if (QuestionGenerator.GetNextQuestion() is not { } nextQuestion)
+        {
+            return;
+        }
+
+        _nextQuestion = nextQuestion;
+        var shuffledAnswers = nextQuestion.Answers.ToArray();
+        Random.Shared.Shuffle(shuffledAnswers);
+        _nextQuestion.Answers = shuffledAnswers;
+        Text = _nextQuestion.Text;
+        PotentialImage = _nextQuestion.QuestionImage;
+        Answers = shuffledAnswers;
     }
 }
