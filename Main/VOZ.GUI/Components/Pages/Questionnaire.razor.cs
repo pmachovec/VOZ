@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using VOZ.GUI.Components.Entities;
 using VOZ.GUI.Constants;
+using VOZ.GUI.Entities;
 using VOZ.GUI.Resources.Translations;
 using VOZ.QuestionGenerator;
 using VOZ.QuestionGenerator.Entities;

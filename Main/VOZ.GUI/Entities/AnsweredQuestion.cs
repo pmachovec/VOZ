@@ -1,6 +1,6 @@
 ﻿using VOZ.QuestionGenerator.Entities;
 
-namespace VOZ.GUI.Components.Entities;
+namespace VOZ.GUI.Entities;
 
 internal sealed class AnsweredQuestion(
     Question _question,
