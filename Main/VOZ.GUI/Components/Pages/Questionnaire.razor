@@ -38,7 +38,7 @@
         {
             <div class="pb-2 w-100">
                 <button
-                    class="border border-dark btn btn-light text-start w-100"
+                    class="border border-dark btn text-start w-100 @(answer.IsCorrect ? ButtonCorrect : ButtonWrong) @ButtonDisabled"
                     @onclick="() => SubmitAnswer(answer)">
                     @(char.ToUpper(answer.Text[0], CultureInfo.InvariantCulture) + answer.Text[1..])
                 </button>

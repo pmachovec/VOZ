@@ -11,7 +11,7 @@ namespace VOZ.GUI.Components.Pages;
 public class QuestionnaireBase : ComponentBase
 {
     private Question? _nextQuestion;
-    private List<AnsweredQuestion> answeredQuestions = [];
+    private List<AnsweredQuestion> _answeredQuestions = [];
 
     [Inject]
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
@@ -19,13 +19,19 @@ public class QuestionnaireBase : ComponentBase
     [Inject]
     protected IQuestionGenerator QuestionGenerator { get; set; } = default!;
 
-    protected bool IsLoading = true;
+    protected Answer[] Answers = [];
 
-    protected string Text = string.Empty;
+    public string ButtonCorrect = CssClasses.BTN_LIGHT;
+
+    protected string ButtonDisabled = string.Empty;
+
+    public string ButtonWrong = CssClasses.BTN_LIGHT;
+
+    protected bool IsLoading = true;
 
     protected QuestionImage? PotentialImage;
 
-    protected Answer[] Answers = [];
+    protected string Text = string.Empty;
 
     protected string Verdict = string.Empty;
 
@@ -50,7 +56,7 @@ public class QuestionnaireBase : ComponentBase
         }
 
         var answeredQuestion = new AnsweredQuestion(_nextQuestion, answer);
-        answeredQuestions.Add(answeredQuestion);
+        _answeredQuestions.Add(answeredQuestion);
 
         if (answer.IsCorrect)
         {
@@ -61,7 +67,12 @@ public class QuestionnaireBase : ComponentBase
         {
             Verdict = $"{Localizer[VOZTranslations.Badly]}!!!";
             VerdictClass = CssClasses.TEXT_DANGER;
+            ButtonWrong = CssClasses.BTN_DANGER;
         }
+
+        ButtonCorrect = CssClasses.BTN_SUCCESS;
+        ButtonDisabled = CssClasses.DISABLED;
+        StateHasChanged();
     }
 
     // Designed for PNG images.
