@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using VOZ.GUI.Components.Pages.QuestionnaireComponents;
 using VOZ.GUI.Constants;
 using VOZ.GUI.Entities;
 using VOZ.GUI.Resources.Translations;
@@ -13,6 +14,9 @@ public class QuestionnaireBase : ComponentBase
     private Question? _nextQuestion;
     private List<AnsweredQuestion> _answeredQuestions = [];
 
+    private event EventHandler _correctAnswerEvent = default!;
+    private event EventHandler _wrongAnswerEvent = default!;
+
     [Inject]
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
 
@@ -20,12 +24,6 @@ public class QuestionnaireBase : ComponentBase
     protected IQuestionGenerator QuestionGenerator { get; set; } = default!;
 
     protected Answer[] Answers = [];
-
-    public string ButtonCorrect = CssClasses.BTN_LIGHT;
-
-    protected string ButtonDisabled = string.Empty;
-
-    public string ButtonWrong = CssClasses.BTN_LIGHT;
 
     protected bool IsLoading = true;
 
@@ -48,33 +46,6 @@ public class QuestionnaireBase : ComponentBase
         }
     }
 
-    protected void SubmitAnswer(Answer answer)
-    {
-        if (_nextQuestion is null)
-        {
-            return;
-        }
-
-        var answeredQuestion = new AnsweredQuestion(_nextQuestion, answer);
-        _answeredQuestions.Add(answeredQuestion);
-
-        if (answer.IsCorrect)
-        {
-            Verdict = $"{Localizer[VOZTranslations.Nice]}!!!";
-            VerdictClass = CssClasses.TEXT_SUCCESS;
-        }
-        else
-        {
-            Verdict = $"{Localizer[VOZTranslations.Badly]}!!!";
-            VerdictClass = CssClasses.TEXT_DANGER;
-            ButtonWrong = CssClasses.BTN_DANGER;
-        }
-
-        ButtonCorrect = CssClasses.BTN_SUCCESS;
-        ButtonDisabled = CssClasses.DISABLED;
-        StateHasChanged();
-    }
-
     // Designed for PNG images.
     // If different mime types are present in the DB, other specific implementations must be created.
     protected static (int Width, int Height)? GetImageDimensions(byte[] bytes)
@@ -88,6 +59,20 @@ public class QuestionnaireBase : ComponentBase
         var height = (bytes[20] << 24) | (bytes[21] << 16) | (bytes[22] << 8) | bytes[23];
 
         return (width, height);
+    }
+
+    protected void RegisterCorrectAnswerButton(IAnswerButton answerButton)
+    {
+        answerButton.AnswerEvent += ReactToCorrectAnswer;
+        _correctAnswerEvent += answerButton.ReactToAnswer;
+        _wrongAnswerEvent += answerButton.ReactToAnswer;
+    }
+
+    protected void RegisterWrongAnswerButton(IAnswerButton answerButton)
+    {
+        answerButton.AnswerEvent += ReactToWrongAnswer;
+        _correctAnswerEvent += answerButton.ReactToAnswer;
+        _wrongAnswerEvent += answerButton.ReactToAnswer;
     }
 
     private void SetUpNextQuestion()
@@ -104,5 +89,21 @@ public class QuestionnaireBase : ComponentBase
         Text = _nextQuestion.Text;
         PotentialImage = _nextQuestion.QuestionImage;
         Answers = shuffledAnswers;
+    }
+
+    private void ReactToCorrectAnswer(object? _1, EventArgs _2)
+    {
+        Verdict = $"{Localizer[VOZTranslations.Nice]}!!!";
+        VerdictClass = CssClasses.TEXT_SUCCESS;
+        _correctAnswerEvent?.Invoke(this, EventArgs.Empty);
+        StateHasChanged();
+    }
+
+    private void ReactToWrongAnswer(object? _1, EventArgs _2)
+    {
+        Verdict = $"{Localizer[VOZTranslations.Badly]}!!!";
+        VerdictClass = CssClasses.TEXT_DANGER;
+        _wrongAnswerEvent?.Invoke(this, EventArgs.Empty);
+        StateHasChanged();
     }
 }

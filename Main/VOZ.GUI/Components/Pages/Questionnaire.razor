@@ -1,4 +1,5 @@
 @using System.Globalization
+@using VOZ.GUI.Components.Pages.QuestionnaireComponents
 @using VOZ.GUI.Resources.Translations
 
 @* Forget about using a constant here. You cannot incorporate a string variable to the @page directive. Put up with it. *@
@@ -8,6 +9,7 @@
 <div class="fw-bolder" hidden="@(!IsLoading)">
     @($"{Localizer[VOZTranslations.QuestionsLoading]}...")
 </div>
+
 <div hidden="@IsLoading">
     <div>
         @($"{Localizer[VOZTranslations.Question]} {QuestionGenerator.QuestionCounter}:")
@@ -36,13 +38,24 @@
     <div class="pt-4">
         @foreach (var answer in Answers)
         {
-            <div class="pb-2 w-100">
-                <button
-                    class="border border-dark btn text-start w-100 @(answer.IsCorrect ? ButtonCorrect : ButtonWrong) @ButtonDisabled"
-                    @onclick="() => SubmitAnswer(answer)">
-                    @(char.ToUpper(answer.Text[0], CultureInfo.InvariantCulture) + answer.Text[1..])
-                </button>
-            </div>
+            @*
+            First, for each answer button, reaction of the questionnaire to the answer event from the button is registered.
+            Second, for each answer button, reaction of the button to the answer event from the questionnaire is registered.
+            No method can be called from here when the button is rendered.
+            The method doing the job is passed to the button and invoked in OnInitialized method of the button.
+            *@
+            if (answer.IsCorrect)
+            {
+                <CorrectAnswerButton
+                    TheAnswer="answer"
+                    RegisterCorrectAnswerButton="RegisterCorrectAnswerButton" />
+            }
+            else
+            {
+                <WrongAnswerButton
+                    TheAnswer="answer"
+                    RegisterWrongAnswerButton="RegisterWrongAnswerButton" />
+            }
         }
     </div>
 
