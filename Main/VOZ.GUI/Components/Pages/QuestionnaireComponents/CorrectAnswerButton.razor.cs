@@ -16,7 +16,7 @@ public class CorrectAnswerButtonBase : ComponentBase, IAnswerButton
 
     protected string ButtonDisabled = string.Empty;
 
-    public event EventHandler AnswerEvent = default!;
+    public event EventHandler<Answer> AnswerEvent = default!;
 
     protected override void OnInitialized() => RegisterCorrectAnswerButton?.Invoke(this);
 
@@ -26,12 +26,18 @@ public class CorrectAnswerButtonBase : ComponentBase, IAnswerButton
         ButtonDisabled = CssClasses.DISABLED;
     }
 
+    public void ReactToNextQuestion(object? _1, EventArgs _2)
+    {
+        ButtonClass = CssClasses.BTN_LIGHT;
+        ButtonDisabled = string.Empty;
+    }
+
     protected void SubmitAnswer()
     {
         // No need to set the button as disabled here. This is handled by ReactToAnswer.
         // The button reacts to its own answer. It's easier than trying not to invoke the event for the button.
 
         ButtonClass = CssClasses.BTN_SUCCESS;
-        AnswerEvent?.Invoke(this, EventArgs.Empty);
+        AnswerEvent?.Invoke(this, TheAnswer);
     }
 }

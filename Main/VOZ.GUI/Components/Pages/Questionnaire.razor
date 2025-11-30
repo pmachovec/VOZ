@@ -63,6 +63,12 @@
         @Verdict
     </p>
 
+    <button
+        class="border border-dark btn btn-lg btn-primary voz-button @NextQuestionButtonDisabled"
+        @onclick="SetUpNextQuestion">
+        @Localizer[VOZTranslations.Next]
+    </button>
+
     <div class="fw-bolder pt-4">
         @*
         The href="" causes Blazor to apply the 'active' class to the NavLink when on the /questionnaire route.
@@ -70,7 +76,7 @@
         Applying the class causes setting the background to darker gray instead of the desired light gray.
         The NavLinkMatch.All ensures that the class would be applied only if the current route exactly matched the href value.
         *@
-        <NavLink class="border border-dark btn btn-light btn-lg" href="" Match="NavLinkMatch.All">
+        <NavLink class="border border-dark btn btn-light btn-lg voz-button" href="" Match="NavLinkMatch.All">
             @Localizer[VOZTranslations.Restart]
         </NavLink>
     </div>

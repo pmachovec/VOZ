@@ -12,10 +12,11 @@ namespace VOZ.GUI.Components.Pages;
 public class QuestionnaireBase : ComponentBase
 {
     private Question? _nextQuestion;
-    private List<AnsweredQuestion> _answeredQuestions = [];
+    private readonly List<AnsweredQuestion> _answeredQuestions = [];
 
     private event EventHandler _correctAnswerEvent = default!;
     private event EventHandler _wrongAnswerEvent = default!;
+    private event EventHandler _nextQuestionEvent = default!;
 
     [Inject]
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
@@ -28,6 +29,8 @@ public class QuestionnaireBase : ComponentBase
     protected bool IsLoading = true;
 
     protected QuestionImage? PotentialImage;
+
+    protected string NextQuestionButtonDisabled = CssClasses.DISABLED;
 
     protected string Text = string.Empty;
 
@@ -42,7 +45,6 @@ public class QuestionnaireBase : ComponentBase
             await QuestionGenerator.SetUpQuestionsAsync(CancellationToken.None);
             IsLoading = false;
             SetUpNextQuestion();
-            StateHasChanged();
         }
     }
 
@@ -64,18 +66,23 @@ public class QuestionnaireBase : ComponentBase
     protected void RegisterCorrectAnswerButton(IAnswerButton answerButton)
     {
         answerButton.AnswerEvent += ReactToCorrectAnswer;
-        _correctAnswerEvent += answerButton.ReactToAnswer;
-        _wrongAnswerEvent += answerButton.ReactToAnswer;
+        RegisterAnswerButton(answerButton);
     }
 
     protected void RegisterWrongAnswerButton(IAnswerButton answerButton)
     {
         answerButton.AnswerEvent += ReactToWrongAnswer;
-        _correctAnswerEvent += answerButton.ReactToAnswer;
-        _wrongAnswerEvent += answerButton.ReactToAnswer;
+        RegisterAnswerButton(answerButton);
     }
 
-    private void SetUpNextQuestion()
+    private void RegisterAnswerButton(IAnswerButton answerButton)
+    {
+        _correctAnswerEvent += answerButton.ReactToAnswer;
+        _wrongAnswerEvent += answerButton.ReactToAnswer;
+        _nextQuestionEvent += answerButton.ReactToNextQuestion;
+    }
+
+    protected void SetUpNextQuestion()
     {
         if (QuestionGenerator.GetNextQuestion() is not { } nextQuestion)
         {
@@ -86,24 +93,40 @@ public class QuestionnaireBase : ComponentBase
         var shuffledAnswers = nextQuestion.Answers.ToArray();
         Random.Shared.Shuffle(shuffledAnswers);
         _nextQuestion.Answers = shuffledAnswers;
+        _nextQuestionEvent?.Invoke(this, EventArgs.Empty);
         Text = _nextQuestion.Text;
         PotentialImage = _nextQuestion.QuestionImage;
         Answers = shuffledAnswers;
+        Verdict = string.Empty;
+        NextQuestionButtonDisabled = CssClasses.DISABLED;
+        StateHasChanged();
     }
 
-    private void ReactToCorrectAnswer(object? _1, EventArgs _2)
+    private void ReactToCorrectAnswer(object? _, Answer correctAnswer)
     {
         Verdict = $"{Localizer[VOZTranslations.Nice]}!!!";
         VerdictClass = CssClasses.TEXT_SUCCESS;
         _correctAnswerEvent?.Invoke(this, EventArgs.Empty);
         StateHasChanged();
+        ReactToAnswer(correctAnswer);
     }
 
-    private void ReactToWrongAnswer(object? _1, EventArgs _2)
+    private void ReactToWrongAnswer(object? _, Answer wrongAnswer)
     {
         Verdict = $"{Localizer[VOZTranslations.Badly]}!!!";
         VerdictClass = CssClasses.TEXT_DANGER;
         _wrongAnswerEvent?.Invoke(this, EventArgs.Empty);
+        ReactToAnswer(wrongAnswer);
+    }
+
+    private void ReactToAnswer(Answer selectedAnswer)
+    {
+        if (_nextQuestion is not null)
+        {
+            _answeredQuestions.Add(new(_nextQuestion, selectedAnswer));
+            NextQuestionButtonDisabled = string.Empty;
+        }
+
         StateHasChanged();
     }
 }
