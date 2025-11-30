@@ -21,7 +21,8 @@
     // Pick the best language.
     // Yes, it's based on one specific translations map. Put up with it!
     function pickLang() {
-        const langs = navigator.languages || [navigator.language || 'en'];
+        // const langs = navigator.languages || [navigator.language || 'en'];
+        const langs = ['cs']; // For now, just run in Czech.
 
         for (const l of langs) {
             const lc = l.toLowerCase();
