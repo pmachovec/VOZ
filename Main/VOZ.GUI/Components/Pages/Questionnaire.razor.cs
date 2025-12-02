@@ -32,6 +32,16 @@ public class QuestionnaireBase : ComponentBase
 
     protected int QuestionCounter;
 
+    protected int QuestionsCorrectCount;
+
+    protected int QuestionsCorrectPercentage;
+
+    protected int QuestionsTotalCount;
+
+    protected int QuestionsWrongCount;
+
+    protected int QuestionsWrongPercentage;
+
     protected string Text = string.Empty;
 
     protected string Verdict = string.Empty;
@@ -104,8 +114,8 @@ public class QuestionnaireBase : ComponentBase
     {
         Verdict = $"{Localizer[VOZTranslations.Nice]}!!!";
         VerdictClass = CssClasses.TEXT_SUCCESS;
+        QuestionsCorrectCount++;
         _correctAnswerEvent?.Invoke(this, EventArgs.Empty);
-        StateHasChanged();
         ReactToAnswer(correctAnswer);
     }
 
@@ -113,6 +123,7 @@ public class QuestionnaireBase : ComponentBase
     {
         Verdict = $"{Localizer[VOZTranslations.Badly]}!!!";
         VerdictClass = CssClasses.TEXT_DANGER;
+        QuestionsWrongCount++;
         _wrongAnswerEvent?.Invoke(this, EventArgs.Empty);
         ReactToAnswer(wrongAnswer);
     }
@@ -121,6 +132,9 @@ public class QuestionnaireBase : ComponentBase
     {
         _submittedAnswers.Add(submittedAnswer);
         NextQuestionButtonDisabled = string.Empty;
+        QuestionsTotalCount++;
+        QuestionsCorrectPercentage = (int)Math.Round(QuestionsCorrectCount * 100 / (float)QuestionsTotalCount, MidpointRounding.AwayFromZero);
+        QuestionsWrongPercentage = 100 - QuestionsCorrectPercentage;
         StateHasChanged();
     }
 }

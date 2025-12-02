@@ -1,5 +1,6 @@
 @using System.Globalization
 @using VOZ.GUI.Components.Pages.QuestionnaireComponents
+@using VOZ.GUI.Constants
 @using VOZ.GUI.Resources.Translations
 
 @* Forget about using a constant here. You cannot incorporate a string variable to the @page directive. Put up with it. *@
@@ -68,6 +69,28 @@
         @onclick="ClickNextQuestionButton">
         @Localizer[VOZTranslations.Next]
     </button>
+
+    <div class="pt-4">
+        <table class="table table-borderless w-auto">
+            <tr>
+                <td>@Localizer[VOZTranslations.QuestionsAnswered]:</td>
+                <td class="px-2">@QuestionsTotalCount</td>
+                <td></td>
+            </tr>
+
+            <tr class="@CssClasses.TEXT_SUCCESS">
+                <td>@Localizer[VOZTranslations.Correct]:</td>
+                <td class="px-2">@QuestionsCorrectCount</td>
+                <td class="px-2">@(QuestionsCorrectPercentage)%</td>
+            </tr>
+
+            <tr class="@CssClasses.TEXT_DANGER">
+                <td>@Localizer[VOZTranslations.Wrong]:</td>
+                <td class="px-2">@QuestionsWrongCount</td>
+                <td class="px-2">@(QuestionsWrongPercentage)%</td>
+            </tr>
+        </table>
+    </div>
 
     <div class="fw-bolder pt-4">
         @*

@@ -138,4 +138,13 @@
   <data name="Next" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="QuestionsAnswered" xml:space="preserve">
+      <value>Questions answered</value>
+  </data>
+  <data name="Correct" xml:space="preserve">
+      <value>Correct</value>
+  </data>
+  <data name="Wrong" xml:space="preserve">
+      <value>Wrong</value>
+  </data>
 </root>
