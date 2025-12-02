@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using VOZ.GUI.Components.Pages.QuestionnaireComponents;
 using VOZ.GUI.Constants;
-using VOZ.GUI.Entities;
 using VOZ.GUI.Resources.Translations;
 using VOZ.QuestionGenerator;
 using VOZ.QuestionGenerator.Entities;
@@ -11,12 +10,11 @@ namespace VOZ.GUI.Components.Pages;
 
 public class QuestionnaireBase : ComponentBase
 {
-    private Question? _nextQuestion;
-    private readonly List<AnsweredQuestion> _answeredQuestions = [];
+    private readonly List<Answer> _submittedAnswers = [];
 
-    private event EventHandler _correctAnswerEvent = default!;
-    private event EventHandler _wrongAnswerEvent = default!;
-    private event EventHandler _nextQuestionEvent = default!;
+    private event EventHandler? _correctAnswerEvent;
+    private event EventHandler? _wrongAnswerEvent;
+    private event EventHandler? _nextQuestionEvent;
 
     [Inject]
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
@@ -89,13 +87,12 @@ public class QuestionnaireBase : ComponentBase
             return;
         }
 
-        _nextQuestion = nextQuestion;
         var shuffledAnswers = nextQuestion.Answers.ToArray();
         Random.Shared.Shuffle(shuffledAnswers);
-        _nextQuestion.Answers = shuffledAnswers;
+        nextQuestion.Answers = shuffledAnswers;
         _nextQuestionEvent?.Invoke(this, EventArgs.Empty);
-        Text = _nextQuestion.Text;
-        PotentialImage = _nextQuestion.QuestionImage;
+        Text = nextQuestion.Text;
+        PotentialImage = nextQuestion.QuestionImage;
         Answers = shuffledAnswers;
         Verdict = string.Empty;
         NextQuestionButtonDisabled = CssClasses.DISABLED;
@@ -119,14 +116,10 @@ public class QuestionnaireBase : ComponentBase
         ReactToAnswer(wrongAnswer);
     }
 
-    private void ReactToAnswer(Answer selectedAnswer)
+    private void ReactToAnswer(Answer submittedAnswer)
     {
-        if (_nextQuestion is not null)
-        {
-            _answeredQuestions.Add(new(_nextQuestion, selectedAnswer));
-            NextQuestionButtonDisabled = string.Empty;
-        }
-
+        _submittedAnswers.Add(submittedAnswer);
+        NextQuestionButtonDisabled = string.Empty;
         StateHasChanged();
     }
 }
