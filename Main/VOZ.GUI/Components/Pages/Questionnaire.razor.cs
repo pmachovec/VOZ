@@ -22,13 +22,15 @@ public class QuestionnaireBase : ComponentBase
     [Inject]
     protected IQuestionGenerator QuestionGenerator { get; set; } = default!;
 
-    protected Answer[] Answers = [];
+    protected IEnumerable<Answer> Answers = [];
 
     protected bool IsLoading = true;
 
     protected QuestionImage? PotentialImage;
 
     protected string NextQuestionButtonDisabled = CssClasses.DISABLED;
+
+    protected int QuestionCounter;
 
     protected string Text = string.Empty;
 
@@ -61,6 +63,12 @@ public class QuestionnaireBase : ComponentBase
         return (width, height);
     }
 
+    protected void ClickNextQuestionButton()
+    {
+        QuestionCounter++;
+        SetUpNextQuestion();
+    }
+
     protected void RegisterCorrectAnswerButton(IAnswerButton answerButton)
     {
         answerButton.AnswerEvent += ReactToCorrectAnswer;
@@ -73,30 +81,23 @@ public class QuestionnaireBase : ComponentBase
         RegisterAnswerButton(answerButton);
     }
 
+    private void SetUpNextQuestion()
+    {
+        var nextQuestion = QuestionGenerator.GetNextQuestion();
+        _nextQuestionEvent?.Invoke(this, EventArgs.Empty);
+        Text = nextQuestion.Text;
+        PotentialImage = nextQuestion.QuestionImage;
+        Answers = nextQuestion.Answers;
+        Verdict = string.Empty;
+        NextQuestionButtonDisabled = CssClasses.DISABLED;
+        StateHasChanged();
+    }
+
     private void RegisterAnswerButton(IAnswerButton answerButton)
     {
         _correctAnswerEvent += answerButton.ReactToAnswer;
         _wrongAnswerEvent += answerButton.ReactToAnswer;
         _nextQuestionEvent += answerButton.ReactToNextQuestion;
-    }
-
-    protected void SetUpNextQuestion()
-    {
-        if (QuestionGenerator.GetNextQuestion() is not { } nextQuestion)
-        {
-            return;
-        }
-
-        var shuffledAnswers = nextQuestion.Answers.ToArray();
-        Random.Shared.Shuffle(shuffledAnswers);
-        nextQuestion.Answers = shuffledAnswers;
-        _nextQuestionEvent?.Invoke(this, EventArgs.Empty);
-        Text = nextQuestion.Text;
-        PotentialImage = nextQuestion.QuestionImage;
-        Answers = shuffledAnswers;
-        Verdict = string.Empty;
-        NextQuestionButtonDisabled = CssClasses.DISABLED;
-        StateHasChanged();
     }
 
     private void ReactToCorrectAnswer(object? _, Answer correctAnswer)

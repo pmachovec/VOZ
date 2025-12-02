@@ -7,34 +7,31 @@ namespace VOZ.QuestionGenerator;
 internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDbContext) : IQuestionGenerator
 {
     private Question[]? _questions;
+    private int _questionCounter;
 
-    public int QuestionCounter { get; private set; }
-
-    public Question? GetNextQuestion()
+    public Question GetNextQuestion()
     {
         if (_questions is null)
         {
             throw new InvalidOperationException("Questions no set up!");
+        }
+
+        if (_questionCounter >= _questions.Length)
+        {
+            throw new InvalidOperationException("No more questions available!");
         }
 
         // This is correct, 'QuestionCounter++' returns the initial value before the increment.
-        return QuestionCounter >= _questions.Length ? null : _questions[QuestionCounter++];
-    }
-
-    public Question? GetPreviousQuestion()
-    {
-        if (_questions is null)
-        {
-            throw new InvalidOperationException("Questions no set up!");
-        }
-
-        // This is correct, 'QuestionCounter--' returns the initial value before the decrement.
-        return QuestionCounter <= 0 ? null : _questions[QuestionCounter--];
+        var question = _questions[_questionCounter++];
+        var questionAnswers = question.Answers.ToArray();
+        Random.Shared.Shuffle(questionAnswers);
+        question.Answers = questionAnswers;
+        return question;
     }
 
     public async Task SetUpQuestionsAsync(CancellationToken cancellationToken)
     {
-        QuestionCounter = 0;
+        _questionCounter = 0;
 
         var questionsArray = await _questionGeneratorDbContext
             .Questions

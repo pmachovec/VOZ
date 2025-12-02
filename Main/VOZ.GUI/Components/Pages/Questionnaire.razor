@@ -12,7 +12,7 @@
 
 <div hidden="@IsLoading">
     <div>
-        @($"{Localizer[VOZTranslations.Question]} {QuestionGenerator.QuestionCounter}:")
+        @($"{Localizer[VOZTranslations.Question]} {QuestionCounter + 1}:")
     </div>
 
     <div class="fw-bolder">
@@ -65,7 +65,7 @@
 
     <button
         class="border border-dark btn btn-lg btn-primary voz-button @NextQuestionButtonDisabled"
-        @onclick="SetUpNextQuestion">
+        @onclick="ClickNextQuestionButton">
         @Localizer[VOZTranslations.Next]
     </button>
 
