@@ -147,4 +147,7 @@
   <data name="Wrong" xml:space="preserve">
       <value>Špatně</value>
   </data>
+  <data name="Previous" xml:space="preserve">
+      <value>Předchozí</value>
+  </data>
 </root>

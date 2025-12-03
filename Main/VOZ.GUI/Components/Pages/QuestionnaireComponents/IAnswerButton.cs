@@ -8,5 +8,7 @@ public interface IAnswerButton
 
     void ReactToAnswer(object? _1, EventArgs _2);
 
-    void ReactToNextQuestion(object? _1, EventArgs _2);
+    void ReactToNewQuestion(object? _1, EventArgs _2);
+
+    void ReactToSubmittedAnswer(object? _1, Answer submittedAnswer);
 }

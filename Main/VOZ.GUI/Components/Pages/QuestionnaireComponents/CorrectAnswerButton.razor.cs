@@ -16,7 +16,7 @@ public class CorrectAnswerButtonBase : ComponentBase, IAnswerButton
 
     protected string ButtonDisabled = string.Empty;
 
-    public event EventHandler<Answer> AnswerEvent = default!;
+    public event EventHandler<Answer>? AnswerEvent;
 
     protected override void OnInitialized() => RegisterCorrectAnswerButton?.Invoke(this);
 
@@ -26,10 +26,16 @@ public class CorrectAnswerButtonBase : ComponentBase, IAnswerButton
         ButtonDisabled = CssClasses.DISABLED;
     }
 
-    public void ReactToNextQuestion(object? _1, EventArgs _2)
+    public void ReactToNewQuestion(object? _1, EventArgs _2)
     {
         ButtonClass = CssClasses.BTN_LIGHT;
         ButtonDisabled = string.Empty;
+    }
+
+    public void ReactToSubmittedAnswer(object? _1, Answer submittedAnswer)
+    {
+        ButtonClass = CssClasses.BTN_SUCCESS;
+        ButtonDisabled = CssClasses.DISABLED;
     }
 
     protected void SubmitAnswer()

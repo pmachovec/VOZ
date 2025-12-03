@@ -64,7 +64,7 @@ h1:focus {
 }
 
 .voz-button {
-    min-width: 100px
+    min-width: 125px
 }
 
 @supports (-webkit-touch-callout: none) {
