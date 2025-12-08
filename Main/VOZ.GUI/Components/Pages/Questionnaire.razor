@@ -39,23 +39,15 @@
         @foreach (var answer in Answers)
         {
             @*
-            First, for each answer button, reaction of the questionnaire to the answer event from the button is registered.
+            First, for each answer button, reaction of the questionnaire to clicking to the button is passed as a parameter.
             Second, for each answer button, reaction of the button to the answer event from the questionnaire is registered.
-            No method can be called from here when the button is rendered.
+            No method can be called from here when the button is rendered and the event can't be passed to the button as a parameter
             The method doing the job is passed to the button and invoked in OnInitialized method of the button.
             *@
-            if (answer.IsCorrect)
-            {
-                <CorrectAnswerButton
-                    TheAnswer="answer"
-                    RegisterCorrectAnswerButton="RegisterCorrectAnswerButton" />
-            }
-            else
-            {
-                <WrongAnswerButton
-                    TheAnswer="answer"
-                    RegisterWrongAnswerButton="RegisterWrongAnswerButton" />
-            }
+            <AnswerButton
+                ButtonAnswer="answer"
+                ParentReactToAnswer="ReactToSubmittedAnswer"
+                RegisterAnswerButton="RegisterAnswerButton" />
         }
     </div>
 
@@ -76,7 +68,7 @@
         </button>
     </div>
 
-    <div class="pt-4">
+    <div class="fw-bolder pt-4">
         <table class="table table-borderless w-auto">
             <tr>
                 <td>@Localizer[VOZTranslations.QuestionsAnswered]:</td>
