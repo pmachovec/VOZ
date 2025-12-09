@@ -42,9 +42,15 @@ public class AnswerButtonBase : ComponentBase
             }
             else if (submittedAnswer.Id == ButtonAnswer.Id)
             {
-                // This button is a wrong answer button.
-                // A wrong answer button turns red only if it was clicked, i.e., if its answer was submitted.
+                // This button is a wrong answer button and its answer was submitted.
+                // Wrong answer button turns red only if it was clicked, i.e., if its answer was submitted.
                 ButtonClass = CssClasses.BTN_DANGER;
+            }
+            else
+            {
+                // This button is a wrong answer button and its answer was not submitted.
+                // Wrong answer button turns red only if it was clicked, i.e., if its answer was submitted.
+                ButtonClass = CssClasses.BTN_LIGHT;
             }
         }
     }

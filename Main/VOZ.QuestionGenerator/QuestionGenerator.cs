@@ -21,7 +21,7 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
             throw new InvalidOperationException("No more questions available!");
         }
 
-        // This is correct, 'QuestionCounter++' returns the initial value before the increment.
+        // This is correct, '_questionCounter++' returns the initial value before the increment.
         var question = _questions[_questionCounter++];
         var questionAnswers = question.Answers.ToArray();
         Random.Shared.Shuffle(questionAnswers);

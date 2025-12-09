@@ -12,19 +12,11 @@ public class QuestionnaireBase : ComponentBase
 {
     private readonly List<Answer> _submittedAnswers = [];
 
-    // To be invoked when a new value is assigned to the SubmittedAnswer property.
+    // To be invoked when another question is displayed. It can be a new question or already answered question from the history.
     // Answer buttons contain a method registered to this event, setting buttons' CSS styling properly.
     private event EventHandler<Answer?>? _submittedAnswerEvent;
 
-    private Answer? SubmittedAnswer
-    {
-        get;
-        set
-        {
-            field = value;
-            _submittedAnswerEvent?.Invoke(this, value);
-        }
-    }
+    private Question? _actualQuestion;
 
     [Inject]
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
@@ -86,11 +78,10 @@ public class QuestionnaireBase : ComponentBase
         return (width, height);
     }
 
-    protected void ClickPreviousQuestionButton()
+    protected async Task ClickPreviousQuestionButtonAsync()
     {
-        var answer = _submittedAnswers[--AnswerPointer];
-        SetUpQuestion(answer.Question);
-        StateHasChanged();
+        var submittedAnswer = _submittedAnswers[--AnswerPointer];
+        SetUpAnswer(submittedAnswer);
 
         if (AnswerPointer <= 0)
         {
@@ -98,27 +89,50 @@ public class QuestionnaireBase : ComponentBase
         }
 
         NextQuestionButtonDisabled = string.Empty;
-        SubmittedAnswer = answer;
 
-        if (answer.IsCorrect)
-        {
-            SetNiceVerdict();
-        }
-        else
-        {
-            SetBadlyVerdict();
-        }
+        // The questionnaire component must be refreshed before firing the submitted answer event so that answer buttons contain answers corresponding to the actual question.
+        // StateHasChanged maliciously runs the component refresh asynchronously, causing the event to be actually fired before the questionnaire is refreshed.
+        // This causes that button answers correspond to the previous question when the event is fired and correct and wrong answers are not detected correctly.
+        // As a solution, the StateHasChanged must be wrapped to InvokeAsync and awaited.
+        await InvokeAsync(StateHasChanged);
 
-        StateHasChanged();
+        // Only at this point, answer buttons contain answers corresponding to the actual question.
+        // Now it's safe to fire the submitted answer event and set buttons' CSS classes properly.
+        _submittedAnswerEvent?.Invoke(this, submittedAnswer);
     }
 
-    protected void ClickNextQuestionButton()
+    protected async Task ClickNextQuestionButtonAsync()
     {
         AnswerPointer++;
         PreviousQuestionButtonDisabled = string.Empty;
-        NextQuestionButtonDisabled = CssClasses.DISABLED;
-        SetUpNewQuestion();
-        StateHasChanged();
+        Answer? submittedAnswer = null;
+
+        if (AnswerPointer >= _submittedAnswers.Count)
+        {
+            // Display not answered question, which can, but doesn't have to, be already generated.
+            if (_actualQuestion is not null)
+            {
+                // Not answered question has been already generated.
+                SetUpQuestion(_actualQuestion);
+            }
+            else
+            {
+                // Not answered question has not been generated yet.
+                SetUpNewQuestion();
+            }
+
+            SetNoVerdict();
+            NextQuestionButtonDisabled = CssClasses.DISABLED;
+        }
+        else
+        {
+            // Display answered question from history.
+            submittedAnswer = _submittedAnswers[AnswerPointer];
+            SetUpAnswer(submittedAnswer);
+        }
+
+        await InvokeAsync(StateHasChanged);
+        _submittedAnswerEvent?.Invoke(this, submittedAnswer);
     }
 
     protected void RegisterAnswerButton(AnswerButtonBase answerButtonBase) =>
@@ -138,12 +152,40 @@ public class QuestionnaireBase : ComponentBase
         }
 
         _submittedAnswers.Add(submittedAnswer);
-        SubmittedAnswer = submittedAnswer;
+        _submittedAnswerEvent?.Invoke(this, submittedAnswer);
         NextQuestionButtonDisabled = string.Empty;
         QuestionsTotalCount++;
         QuestionsCorrectPercentage = (int)Math.Round(QuestionsCorrectCount * 100 / (float)QuestionsTotalCount, MidpointRounding.AwayFromZero);
         QuestionsWrongPercentage = 100 - QuestionsCorrectPercentage;
+        _actualQuestion = null;
         StateHasChanged();
+    }
+
+    private void SetUpNewQuestion()
+    {
+        _actualQuestion = QuestionGenerator.GetNextQuestion();
+        SetUpQuestion(_actualQuestion);
+    }
+
+    private void SetUpAnswer(Answer answer)
+    {
+        SetUpQuestion(answer.Question);
+
+        if (answer.IsCorrect)
+        {
+            SetNiceVerdict();
+        }
+        else
+        {
+            SetBadlyVerdict();
+        }
+    }
+
+    private void SetUpQuestion(Question question)
+    {
+        Text = question.Text;
+        PotentialImage = question.QuestionImage;
+        Answers = question.Answers;
     }
 
     private void SetNiceVerdict()
@@ -158,18 +200,9 @@ public class QuestionnaireBase : ComponentBase
         VerdictClass = CssClasses.TEXT_DANGER;
     }
 
-    private void SetUpNewQuestion()
+    private void SetNoVerdict()
     {
-        var newQuestion = QuestionGenerator.GetNextQuestion();
-        SetUpQuestion(newQuestion);
-        SubmittedAnswer = null;
         Verdict = string.Empty;
-    }
-
-    private void SetUpQuestion(Question question)
-    {
-        Text = question.Text;
-        PotentialImage = question.QuestionImage;
-        Answers = question.Answers;
+        VerdictClass = string.Empty;
     }
 }
