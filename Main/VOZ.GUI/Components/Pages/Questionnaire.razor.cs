@@ -12,9 +12,13 @@ public class QuestionnaireBase : ComponentBase
 {
     private readonly List<Answer> _submittedAnswers = [];
 
-    // To be invoked when another question is displayed. It can be a new question or already answered question from the history.
+    // To be invoked when a new question is displayed.
     // Answer buttons contain a method registered to this event, setting buttons' CSS styling properly.
-    private event EventHandler<Answer?>? _submittedAnswerEvent;
+    private event EventHandler? _newQuestionEvent;
+
+    // To be invoked when an already answered question is displayed.
+    // Answer buttons contain a method registered to this event, setting buttons' CSS styling properly.
+    private event EventHandler<Answer>? _submittedAnswerEvent;
 
     private Question? _actualQuestion;
 
@@ -105,7 +109,6 @@ public class QuestionnaireBase : ComponentBase
     {
         AnswerPointer++;
         PreviousQuestionButtonDisabled = string.Empty;
-        Answer? submittedAnswer = null;
 
         if (AnswerPointer >= _submittedAnswers.Count)
         {
@@ -123,20 +126,25 @@ public class QuestionnaireBase : ComponentBase
 
             SetNoVerdict();
             NextQuestionButtonDisabled = CssClasses.DISABLED;
+            await InvokeAsync(StateHasChanged);
+            _newQuestionEvent?.Invoke(this, EventArgs.Empty);
         }
         else
         {
             // Display answered question from history.
-            submittedAnswer = _submittedAnswers[AnswerPointer];
+            var submittedAnswer = _submittedAnswers[AnswerPointer];
             SetUpAnswer(submittedAnswer);
+            await InvokeAsync(StateHasChanged);
+            _submittedAnswerEvent?.Invoke(this, submittedAnswer);
         }
-
-        await InvokeAsync(StateHasChanged);
-        _submittedAnswerEvent?.Invoke(this, submittedAnswer);
     }
 
-    protected void RegisterAnswerButton(AnswerButtonBase answerButtonBase) =>
+    protected void RegisterAnswerButton(AnswerButtonBase answerButtonBase)
+    {
+        _newQuestionEvent += answerButtonBase.ReactToNewQuestion;
         _submittedAnswerEvent += answerButtonBase.ReactToSubmittedAnswer;
+    }
+
 
     protected void ReactToSubmittedAnswer(Answer submittedAnswer)
     {
