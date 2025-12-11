@@ -9,6 +9,20 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
     private Question[]? _questions;
     private int _questionCounter;
 
+    public async Task SetUpQuestionsAsync(CancellationToken cancellationToken)
+    {
+        _questionCounter = 0;
+
+        var questionsArray = await _questionGeneratorDbContext
+            .Questions
+            .Include(question => question.Answers)
+            .Include(question => question.QuestionImage)
+            .ToArrayAsync(cancellationToken);
+
+        Random.Shared.Shuffle(questionsArray);
+        _questions = questionsArray;
+    }
+
     public Question GetNextQuestion()
     {
         if (_questions is null)
@@ -29,17 +43,9 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
         return question;
     }
 
-    public async Task SetUpQuestionsAsync(CancellationToken cancellationToken)
-    {
-        _questionCounter = 0;
-
-        var questionsArray = await _questionGeneratorDbContext
-            .Questions
-            .Include(question => question.Answers)
-            .Include(question => question.QuestionImage)
+    public async Task<IEnumerable<Category>> GetCategoriesAsync(CancellationToken cancellationToken) =>
+        await _questionGeneratorDbContext
+            .Categories
+            .Include(category => category.Subcategories)
             .ToArrayAsync(cancellationToken);
-
-        Random.Shared.Shuffle(questionsArray);
-        _questions = questionsArray;
-    }
 }

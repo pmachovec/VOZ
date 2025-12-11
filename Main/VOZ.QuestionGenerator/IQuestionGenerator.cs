@@ -4,8 +4,9 @@ namespace VOZ.QuestionGenerator;
 
 public interface IQuestionGenerator
 {
+    Task SetUpQuestionsAsync(CancellationToken cancellationToken);
+
     Question GetNextQuestion();
 
-    Task SetUpQuestionsAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<Category>> GetCategoriesAsync(CancellationToken cancellationToken);
 }
-
