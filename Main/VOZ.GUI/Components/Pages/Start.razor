@@ -15,7 +15,7 @@
                     type="checkbox"
                     checked="@IsCategorySelected(category.Id)"
                     @onchange="(e => OnCategoryChange(e, category))">
-                <label class="form-check-label fw-bolder" for="@($"{IdsPartial.CATEGORY}{category.Id}")">
+                <label class="form-check-label fw-bolder h5" for="@($"{IdsPartial.CATEGORY}{category.Id}")">
                     @category.Name
                 </label>
             </div>

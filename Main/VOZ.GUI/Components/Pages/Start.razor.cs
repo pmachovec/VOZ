@@ -3,14 +3,13 @@ using Microsoft.Extensions.Localization;
 using VOZ.GUI.Resources.Translations;
 using VOZ.QuestionGenerator;
 using VOZ.QuestionGenerator.Entities;
-using System.Linq;
 
 namespace VOZ.GUI.Components.Pages;
 
 public class StartBase : ComponentBase
 {
-    private readonly HashSet<int> _selectedCategoriesIds = [];
-    private readonly HashSet<int> _selectedSubcategoriesIds = [];
+    private HashSet<int> _selectedCategoriesIds = default!;
+    private HashSet<int> _selectedSubcategoriesIds = default!;
 
     [Inject]
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
@@ -18,11 +17,13 @@ public class StartBase : ComponentBase
     [Inject]
     private IQuestionGenerator QuestionGenerator { get; set; } = default!;
 
-    protected IEnumerable<Category> Categories = default!;
+    protected Category[] Categories = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        Categories = await QuestionGenerator.GetCategoriesAsync(CancellationToken.None);
+        Categories = (await QuestionGenerator.GetCategoriesAsync(CancellationToken.None)).ToArray();
+        _selectedCategoriesIds = Categories.Select(c => c.Id).ToHashSet();
+        _selectedSubcategoriesIds = Categories.SelectMany(c => c.Subcategories).Select(sc => sc.Id).ToHashSet();
     }
 
     protected bool IsCategorySelected(int categoryId) => _selectedCategoriesIds.Contains(categoryId);
