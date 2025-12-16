@@ -1,10 +1,12 @@
-﻿using VOZ.QuestionGenerator.Entities;
+using VOZ.QuestionGenerator.Entities;
 
 namespace VOZ.QuestionGenerator;
 
 public interface IQuestionGenerator
 {
     Task SetUpQuestionsAsync(CancellationToken cancellationToken);
+
+    Task SetUpQuestionsAsync(HashSet<int> subcategoriesIds, CancellationToken cancellationToken);
 
     Question GetNextQuestion();
 

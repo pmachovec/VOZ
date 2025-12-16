@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using VOZ.QuestionGenerator.Database;
 using VOZ.QuestionGenerator.Entities;
 
@@ -15,6 +15,21 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
 
         var questionsArray = await _questionGeneratorDbContext
             .Questions
+            .Include(question => question.Answers)
+            .Include(question => question.QuestionImage)
+            .ToArrayAsync(cancellationToken);
+
+        Random.Shared.Shuffle(questionsArray);
+        _questions = questionsArray;
+    }
+
+    public async Task SetUpQuestionsAsync(HashSet<int> subcategoriesIds, CancellationToken cancellationToken)
+    {
+        _questionCounter = 0;
+
+        var questionsArray = await _questionGeneratorDbContext
+            .Questions
+            .Where(question => subcategoriesIds.Contains(question.Subcategory.Id))
             .Include(question => question.Answers)
             .Include(question => question.QuestionImage)
             .ToArrayAsync(cancellationToken);

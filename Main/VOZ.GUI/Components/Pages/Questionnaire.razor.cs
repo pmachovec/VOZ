@@ -28,6 +28,9 @@ public class QuestionnaireBase : ComponentBase
     [Inject]
     protected IQuestionGenerator QuestionGenerator { get; set; } = default!;
 
+    [Inject]
+    private QuestionnaireParams QuestionnaireParams { get; set; } = default!;
+
     protected int AnswerPointer;
 
     protected IEnumerable<Answer> Answers = [];
@@ -60,7 +63,7 @@ public class QuestionnaireBase : ComponentBase
     {
         if (firstRender)
         {
-            await QuestionGenerator.SetUpQuestionsAsync(CancellationToken.None);
+            await QuestionnaireParams.SetUpQuestionsTask;
             IsLoading = false;
             SetUpNewQuestion();
             StateHasChanged();
@@ -80,6 +83,12 @@ public class QuestionnaireBase : ComponentBase
         var height = (bytes[20] << 24) | (bytes[21] << 16) | (bytes[22] << 8) | bytes[23];
 
         return (width, height);
+    }
+
+    protected void RegisterAnswerButton(AnswerButtonBase answerButtonBase)
+    {
+        _newQuestionEvent += answerButtonBase.ReactToNewQuestion;
+        _submittedAnswerEvent += answerButtonBase.ReactToSubmittedAnswer;
     }
 
     protected async Task ClickPreviousQuestionButtonAsync()
@@ -138,13 +147,6 @@ public class QuestionnaireBase : ComponentBase
             _submittedAnswerEvent?.Invoke(this, submittedAnswer);
         }
     }
-
-    protected void RegisterAnswerButton(AnswerButtonBase answerButtonBase)
-    {
-        _newQuestionEvent += answerButtonBase.ReactToNewQuestion;
-        _submittedAnswerEvent += answerButtonBase.ReactToSubmittedAnswer;
-    }
-
 
     protected void ReactToSubmittedAnswer(Answer submittedAnswer)
     {

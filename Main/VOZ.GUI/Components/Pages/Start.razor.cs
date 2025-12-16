@@ -15,15 +15,21 @@ public class StartBase : ComponentBase
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
 
     [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
+
+    [Inject]
     private IQuestionGenerator QuestionGenerator { get; set; } = default!;
+
+    [Inject]
+    private QuestionnaireParams QuestionnaireParams { get; set; } = default!;
 
     protected Category[] Categories = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        Categories = (await QuestionGenerator.GetCategoriesAsync(CancellationToken.None)).ToArray();
-        _selectedCategoriesIds = Categories.Select(c => c.Id).ToHashSet();
-        _selectedSubcategoriesIds = Categories.SelectMany(c => c.Subcategories).Select(sc => sc.Id).ToHashSet();
+        Categories = [.. await QuestionGenerator.GetCategoriesAsync(CancellationToken.None)];
+        _selectedCategoriesIds = [.. Categories.Select(c => c.Id)];
+        _selectedSubcategoriesIds = [.. Categories.SelectMany(c => c.Subcategories).Select(sc => sc.Id)];
     }
 
     protected bool IsCategorySelected(int categoryId) => _selectedCategoriesIds.Contains(categoryId);
@@ -36,20 +42,20 @@ public class StartBase : ComponentBase
 
         if (isChecked)
         {
-            _selectedCategoriesIds.Add(category.Id);
+            _ = _selectedCategoriesIds.Add(category.Id);
 
             foreach (var subcategory in category.Subcategories)
             {
-                _selectedSubcategoriesIds.Add(subcategory.Id);
+                _ = _selectedSubcategoriesIds.Add(subcategory.Id);
             }
         }
         else
         {
-            _selectedCategoriesIds.Remove(category.Id);
+            _ = _selectedCategoriesIds.Remove(category.Id);
 
             foreach (var subcategory in category.Subcategories)
             {
-                _selectedSubcategoriesIds.Remove(subcategory.Id);
+                _ = _selectedSubcategoriesIds.Remove(subcategory.Id);
             }
         }
     }
@@ -57,15 +63,7 @@ public class StartBase : ComponentBase
     protected void OnSubcategoryChange(ChangeEventArgs e, Subcategory subcategory)
     {
         var isChecked = e.Value is true;
-
-        if (isChecked)
-        {
-            _selectedSubcategoriesIds.Add(subcategory.Id);
-        }
-        else
-        {
-            _selectedSubcategoriesIds.Remove(subcategory.Id);
-        }
+        _ = isChecked ? _selectedSubcategoriesIds.Add(subcategory.Id) : _selectedSubcategoriesIds.Remove(subcategory.Id);
 
         // Keep category state in sync: checked only when all its subcategories are checked
         var category = Categories.FirstOrDefault(c => c.Id == subcategory.CategoryId);
@@ -77,14 +75,16 @@ public class StartBase : ComponentBase
 
         var hasSubcategories = category.Subcategories.Count != 0;
         var isAllChecked = hasSubcategories && category.Subcategories.All(sc => _selectedSubcategoriesIds.Contains(sc.Id));
+        _ = isAllChecked ? _selectedCategoriesIds.Add(category.Id) : _selectedCategoriesIds.Remove(category.Id);
+    }
 
-        if (isAllChecked)
-        {
-            _selectedCategoriesIds.Add(category.Id);
-        }
-        else
-        {
-            _selectedCategoriesIds.Remove(category.Id);
-        }
+    protected void Start()
+    {
+        // Yes, comparing categories lengths is enough to determine if all categories are selected.
+        QuestionnaireParams.SetUpQuestionsTask = _selectedCategoriesIds.Count == Categories.Length
+            ? QuestionGenerator.SetUpQuestionsAsync(CancellationToken.None)
+            : QuestionGenerator.SetUpQuestionsAsync(_selectedSubcategoriesIds, CancellationToken.None);
+
+        NavigationManager.NavigateTo("/questionnaire");
     }
 }
