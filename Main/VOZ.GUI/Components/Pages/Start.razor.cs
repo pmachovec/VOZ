@@ -23,7 +23,7 @@ public class StartBase : ComponentBase
     [Inject]
     private QuestionnaireParams QuestionnaireParams { get; set; } = default!;
 
-    protected Category[] Categories = default!;
+    protected Category[] Categories { get; private set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {

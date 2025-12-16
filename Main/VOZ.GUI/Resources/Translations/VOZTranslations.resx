@@ -150,4 +150,7 @@
   <data name="Previous" xml:space="preserve">
       <value>Previous</value>
   </data>
+  <data name="Done" xml:space="preserve">
+      <value>Done</value>
+  </data>
 </root>

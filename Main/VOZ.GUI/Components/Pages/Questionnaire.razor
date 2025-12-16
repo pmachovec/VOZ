@@ -51,21 +51,26 @@
         }
     </div>
 
-    <p class="h1 fw-bold takes-space @VerdictClass">
+    <p class="fw-bold h1 takes-space @VerdictClass">
         @Verdict
     </p>
 
-    <div class="d-grid d-md-block">
+    <div class="align-items-center d-flex">
         <button
             class="border border-dark btn btn-lg btn-primary me-2 voz-button @PreviousQuestionButtonDisabled"
             @onclick="async () => await ClickPreviousQuestionButtonAsync()">
             @Localizer[VOZTranslations.Previous]
         </button>
+
         <button
-            class="border border-dark btn btn-lg btn-primary voz-button @NextQuestionButtonDisabled"
+            class="border border-dark btn btn-lg btn-primary me-2 voz-button @NextQuestionButtonDisabled"
             @onclick="async () => await ClickNextQuestionButtonAsync()">
             @Localizer[VOZTranslations.Next]
         </button>
+
+        <span class="fw-bold h1-fixed mb-0 text-primary">
+            @Done
+        </span>
     </div>
 
     <div class="fw-bolder pt-4">

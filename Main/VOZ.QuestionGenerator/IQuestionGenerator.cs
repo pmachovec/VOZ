@@ -4,6 +4,8 @@ namespace VOZ.QuestionGenerator;
 
 public interface IQuestionGenerator
 {
+    int QuestionsCount { get; }
+
     Task SetUpQuestionsAsync(CancellationToken cancellationToken);
 
     Task SetUpQuestionsAsync(HashSet<int> subcategoriesIds, CancellationToken cancellationToken);

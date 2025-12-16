@@ -9,6 +9,9 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
     private Question[]? _questions;
     private int _questionCounter;
 
+    public int QuestionsCount =>
+        _questions == null ? throw new InvalidOperationException("Questions no set up!") : _questions.Length;
+
     public async Task SetUpQuestionsAsync(CancellationToken cancellationToken)
     {
         _questionCounter = 0;
@@ -45,7 +48,7 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
             throw new InvalidOperationException("Questions no set up!");
         }
 
-        if (_questionCounter >= _questions.Length)
+        if (_questionCounter >= QuestionsCount)
         {
             throw new InvalidOperationException("No more questions available!");
         }

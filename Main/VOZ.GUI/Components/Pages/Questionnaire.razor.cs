@@ -31,33 +31,35 @@ public class QuestionnaireBase : ComponentBase
     [Inject]
     private QuestionnaireParams QuestionnaireParams { get; set; } = default!;
 
-    protected int AnswerPointer;
+    protected int AnswerPointer { get; private set; }
 
-    protected IEnumerable<Answer> Answers = [];
+    protected IEnumerable<Answer> Answers { get; private set; } = [];
 
-    protected bool IsLoading = true;
+    protected string Done { get; private set; } = string.Empty;
 
-    protected QuestionImage? PotentialImage;
+    protected bool IsLoading { get; private set; } = true;
 
-    protected string PreviousQuestionButtonDisabled = CssClasses.DISABLED;
+    protected string NextQuestionButtonDisabled { get; private set; } = CssClasses.DISABLED;
 
-    protected string NextQuestionButtonDisabled = CssClasses.DISABLED;
+    protected QuestionImage? PotentialImage { get; private set; }
 
-    protected int QuestionsCorrectCount;
+    protected string PreviousQuestionButtonDisabled { get; private set; } = CssClasses.DISABLED;
 
-    protected int QuestionsCorrectPercentage;
+    protected int QuestionsCorrectCount { get; private set; }
 
-    protected int QuestionsTotalCount;
+    protected int QuestionsCorrectPercentage { get; private set; }
 
-    protected int QuestionsWrongCount;
+    protected int QuestionsTotalCount { get; private set; }
 
-    protected int QuestionsWrongPercentage;
+    protected int QuestionsWrongCount { get; private set; }
 
-    protected string Text = string.Empty;
+    protected int QuestionsWrongPercentage { get; private set; }
 
-    protected string Verdict = string.Empty;
+    protected string Text { get; private set; } = string.Empty;
 
-    protected string VerdictClass = string.Empty;
+    protected string Verdict { get; private set; } = string.Empty;
+
+    protected string VerdictClass { get; private set; } = string.Empty;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -119,7 +121,14 @@ public class QuestionnaireBase : ComponentBase
         AnswerPointer++;
         PreviousQuestionButtonDisabled = string.Empty;
 
-        if (AnswerPointer >= _submittedAnswers.Count)
+        if (AnswerPointer >= QuestionGenerator.QuestionsCount - 1 && !string.IsNullOrEmpty(Done))
+        {
+            // There's no next question available, keep the next question button disabled.
+            // This is reachable when answering all questions and listing through history.
+            NextQuestionButtonDisabled = CssClasses.DISABLED;
+            SetUpAnswer(_submittedAnswers[AnswerPointer]);
+        }
+        else if (AnswerPointer >= _submittedAnswers.Count)
         {
             // Display not answered question, which can, but doesn't have to, be already generated.
             if (_actualQuestion is not null)
@@ -163,11 +172,21 @@ public class QuestionnaireBase : ComponentBase
 
         _submittedAnswers.Add(submittedAnswer);
         _submittedAnswerEvent?.Invoke(this, submittedAnswer);
-        NextQuestionButtonDisabled = string.Empty;
         QuestionsTotalCount++;
         QuestionsCorrectPercentage = (int)Math.Round(QuestionsCorrectCount * 100 / (float)QuestionsTotalCount, MidpointRounding.AwayFromZero);
         QuestionsWrongPercentage = 100 - QuestionsCorrectPercentage;
         _actualQuestion = null;
+
+        if (QuestionsTotalCount < QuestionGenerator.QuestionsCount)
+        {
+            NextQuestionButtonDisabled = string.Empty;
+        }
+        else
+        {
+            NextQuestionButtonDisabled = CssClasses.DISABLED;
+            Done = $"{Localizer[VOZTranslations.Done]}!!!";
+        }
+
         StateHasChanged();
     }
 

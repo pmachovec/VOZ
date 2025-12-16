@@ -150,4 +150,7 @@
   <data name="Previous" xml:space="preserve">
       <value>Předchozí</value>
   </data>
+  <data name="Done" xml:space="preserve">
+      <value>Hotovo</value>
+  </data>
 </root>
