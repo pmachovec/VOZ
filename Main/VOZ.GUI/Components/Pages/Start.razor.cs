@@ -38,9 +38,7 @@ public class StartBase : ComponentBase
 
     protected void OnCategoryChange(ChangeEventArgs e, Category category)
     {
-        var isChecked = e.Value is true;
-
-        if (isChecked)
+        if (e.Value is true)
         {
             _ = _selectedCategoriesIds.Add(category.Id);
 
