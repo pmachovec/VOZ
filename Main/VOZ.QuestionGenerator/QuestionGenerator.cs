@@ -28,6 +28,11 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
 
     public async Task SetUpQuestionsAsync(HashSet<int> subcategoriesIds, CancellationToken cancellationToken)
     {
+        if (subcategoriesIds.Count == 0)
+        {
+            throw new ArgumentException("Empty subcategories IDs!");
+        }
+
         _questionCounter = 0;
 
         var questionsArray = await _questionGeneratorDbContext
@@ -61,9 +66,21 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
         return question;
     }
 
-    public async Task<IEnumerable<Category>> GetCategoriesAsync(CancellationToken cancellationToken) =>
-        await _questionGeneratorDbContext
+    public async Task<IEnumerable<Category>> GetCategoriesWithSubcategoriesAsync(CancellationToken cancellationToken)
+    {
+        if (!_questionGeneratorDbContext.Categories.Any())
+        {
+            throw new InvalidDataException("No categories available in the database!");
+        }
+
+        var categoriesWithSubcategories = await _questionGeneratorDbContext
             .Categories
+            .Where(category => category.Subcategories.Count > 0)
             .Include(category => category.Subcategories)
             .ToArrayAsync(cancellationToken);
+
+        return categoriesWithSubcategories.Length == 0
+            ? throw new InvalidDataException("No categories with subcategories available in the database!")
+            : categoriesWithSubcategories;
+    }
 }

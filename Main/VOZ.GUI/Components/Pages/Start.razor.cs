@@ -27,7 +27,7 @@ public class StartBase : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        Categories = [.. await QuestionGenerator.GetCategoriesAsync(CancellationToken.None)];
+        Categories = [.. await QuestionGenerator.GetCategoriesWithSubcategoriesAsync(CancellationToken.None)];
         _selectedCategoriesIds = [.. Categories.Select(c => c.Id)];
         _selectedSubcategoriesIds = [.. Categories.SelectMany(c => c.Subcategories).Select(sc => sc.Id)];
     }
