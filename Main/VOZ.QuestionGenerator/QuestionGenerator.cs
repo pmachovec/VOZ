@@ -10,7 +10,7 @@ internal class QuestionGenerator(QuestionGeneratorDbContext _questionGeneratorDb
     private int _questionCounter;
 
     public int QuestionsCount =>
-        _questions == null ? throw new InvalidOperationException("Questions no set up!") : _questions.Length;
+        _questions?.Length ?? throw new InvalidOperationException("Questions no set up!");
 
     public async Task SetUpQuestionsAsync(CancellationToken cancellationToken)
     {

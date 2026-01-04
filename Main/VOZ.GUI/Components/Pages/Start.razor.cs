@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using VOZ.GUI.Constants;
 using VOZ.GUI.Resources.Translations;
 using VOZ.QuestionGenerator;
 using VOZ.QuestionGenerator.Entities;
@@ -25,11 +26,14 @@ public class StartBase : ComponentBase
 
     protected Category[] Categories { get; private set; } = default!;
 
+    protected string StartButtonDisabled { get; private set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         Categories = [.. await QuestionGenerator.GetCategoriesWithSubcategoriesAsync(CancellationToken.None)];
         _selectedCategoriesIds = [.. Categories.Select(c => c.Id)];
         _selectedSubcategoriesIds = [.. Categories.SelectMany(c => c.Subcategories).Select(sc => sc.Id)];
+        DisableStartButtonWhenNoSubcategoriesSelected();
     }
 
     protected bool IsCategorySelected(int categoryId) => _selectedCategoriesIds.Contains(categoryId);
@@ -56,6 +60,8 @@ public class StartBase : ComponentBase
                 _ = _selectedSubcategoriesIds.Remove(subcategory.Id);
             }
         }
+
+        DisableStartButtonWhenNoSubcategoriesSelected();
     }
 
     protected void OnSubcategoryChange(ChangeEventArgs e, Subcategory subcategory)
@@ -63,7 +69,7 @@ public class StartBase : ComponentBase
         var isChecked = e.Value is true;
         _ = isChecked ? _selectedSubcategoriesIds.Add(subcategory.Id) : _selectedSubcategoriesIds.Remove(subcategory.Id);
 
-        // Keep category state in sync: checked only when all its subcategories are checked
+        // Keep category state in sync - checked only when all its subcategories are checked
         var category = Categories.FirstOrDefault(c => c.Id == subcategory.CategoryId);
 
         if (category is null)
@@ -74,6 +80,7 @@ public class StartBase : ComponentBase
         var hasSubcategories = category.Subcategories.Count != 0;
         var isAllChecked = hasSubcategories && category.Subcategories.All(sc => _selectedSubcategoriesIds.Contains(sc.Id));
         _ = isAllChecked ? _selectedCategoriesIds.Add(category.Id) : _selectedCategoriesIds.Remove(category.Id);
+        DisableStartButtonWhenNoSubcategoriesSelected();
     }
 
     protected void Start()
@@ -85,4 +92,7 @@ public class StartBase : ComponentBase
 
         NavigationManager.NavigateTo("/questionnaire");
     }
+
+    private void DisableStartButtonWhenNoSubcategoriesSelected() =>
+        StartButtonDisabled = _selectedSubcategoriesIds.Count == 0 ? CssClasses.DISABLED : string.Empty;
 }
