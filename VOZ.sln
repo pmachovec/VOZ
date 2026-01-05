@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.0.11222.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOZ.QuestionGenerator", "Main\VOZ.QuestionGenerator\VOZ.QuestionGenerator.csproj", "{9F616F2C-0D14-40A0-91A3-C97CDCB25CAC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
@@ -16,11 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOZ.GUI", "Main\VOZ.GUI\VOZ.GUI.csproj", "{6F6E5CDC-50D7-42F0-A578-B094B4D69578}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D7B265FB-DE49-418E-874A-BFDD6BCC7B04}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOZ.GUI.Test", "Test\VOZ.GUI.Test\VOZ.GUI.Test.csproj", "{E769AB7E-B278-44C2-8D77-1172CDDD659C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOZ", "Main\VOZ\VOZ.csproj", "{6F6E5CDC-50D7-42F0-A578-B094B4D69578}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,27 +22,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9F616F2C-0D14-40A0-91A3-C97CDCB25CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F616F2C-0D14-40A0-91A3-C97CDCB25CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F616F2C-0D14-40A0-91A3-C97CDCB25CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F616F2C-0D14-40A0-91A3-C97CDCB25CAC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6F6E5CDC-50D7-42F0-A578-B094B4D69578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F6E5CDC-50D7-42F0-A578-B094B4D69578}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F6E5CDC-50D7-42F0-A578-B094B4D69578}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{6F6E5CDC-50D7-42F0-A578-B094B4D69578}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F6E5CDC-50D7-42F0-A578-B094B4D69578}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E769AB7E-B278-44C2-8D77-1172CDDD659C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E769AB7E-B278-44C2-8D77-1172CDDD659C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E769AB7E-B278-44C2-8D77-1172CDDD659C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E769AB7E-B278-44C2-8D77-1172CDDD659C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9F616F2C-0D14-40A0-91A3-C97CDCB25CAC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{6F6E5CDC-50D7-42F0-A578-B094B4D69578} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{E769AB7E-B278-44C2-8D77-1172CDDD659C} = {D7B265FB-DE49-418E-874A-BFDD6BCC7B04}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74CF1789-4D53-43EC-9D14-EA2D4A759289}
