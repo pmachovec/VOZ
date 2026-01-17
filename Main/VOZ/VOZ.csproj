@@ -23,7 +23,7 @@
         <ApplicationTitle>VOZ</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.VOZ</ApplicationId>
+        <ApplicationId>com.pmachovec.voz</ApplicationId>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
