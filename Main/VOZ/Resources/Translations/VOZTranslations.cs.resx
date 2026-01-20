@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Start" xml:space="preserve">
-    <value>Začít</value>
+  <data name="StartTest" xml:space="preserve">
+    <value>Spustit test</value>
   </data>
   <data name="QuestionsLoading" xml:space="preserve">
     <value>Načítání otázek</value>
@@ -139,18 +139,21 @@
     <value>Další</value>
   </data>
   <data name="QuestionsAnswered" xml:space="preserve">
-      <value>Zodpovězeno otázek</value>
+    <value>Zodpovězeno otázek</value>
   </data>
   <data name="Correct" xml:space="preserve">
-      <value>Správně</value>
+    <value>Správně</value>
   </data>
   <data name="Wrong" xml:space="preserve">
-      <value>Špatně</value>
+    <value>Špatně</value>
   </data>
   <data name="Previous" xml:space="preserve">
-      <value>Předchozí</value>
+    <value>Předchozí</value>
   </data>
   <data name="Done" xml:space="preserve">
-      <value>Hotovo</value>
+    <value>Hotovo</value>
+  </data>
+  <data name="CategoriesSelection" xml:space="preserve">
+    <value>Výběr kategorií</value>
   </data>
 </root>

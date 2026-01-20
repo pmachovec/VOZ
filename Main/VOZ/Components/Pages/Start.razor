@@ -4,11 +4,25 @@
 @page "/"
 @inherits StartBase
 
+<div class="fw-bolder pb-2">
+    <button
+        class="border border-dark btn btn-primary btn-lg voz-button @StartButtonDisabled"
+        @onclick="Start">
+        @Localizer[VOZTranslations.StartTest]
+    </button>
+</div>
+
+<hr />
+
+<div class="fw-bolder h3 pb-4">
+    @Localizer[VOZTranslations.CategoriesSelection]
+</div>
+
 <div class="container-fluid text-start">
-    <div class="row pb-4">
+    <div class="row">
         @foreach (var category in Categories)
         {
-            <div class="col-auto pe-4">
+            <div class="col-auto pe-4 ps-0">
                 <div class="form-check">
                     <input
                         id="@($"{IdsPartial.CATEGORY}{category.Id}")"
@@ -38,12 +52,4 @@
             </div>
         }
     </div>
-</div>
-
-<div class="fw-bolder">
-    <button
-        class="border border-dark btn btn-light btn-lg voz-button @StartButtonDisabled"
-        @onclick="Start">
-        @Localizer[VOZTranslations.Start]
-    </button>
 </div>

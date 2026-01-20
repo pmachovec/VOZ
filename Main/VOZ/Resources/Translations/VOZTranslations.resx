@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Start" xml:space="preserve">
-    <value>Start</value>
+  <data name="StartTest" xml:space="preserve">
+    <value>Start test</value>
   </data>
   <data name="QuestionsLoading" xml:space="preserve">
     <value>Questions loading</value>
@@ -139,18 +139,21 @@
     <value>Next</value>
   </data>
   <data name="QuestionsAnswered" xml:space="preserve">
-      <value>Questions answered</value>
+    <value>Questions answered</value>
   </data>
   <data name="Correct" xml:space="preserve">
-      <value>Correct</value>
+    <value>Correct</value>
   </data>
   <data name="Wrong" xml:space="preserve">
-      <value>Wrong</value>
+    <value>Wrong</value>
   </data>
   <data name="Previous" xml:space="preserve">
-      <value>Previous</value>
+    <value>Previous</value>
   </data>
   <data name="Done" xml:space="preserve">
-      <value>Done</value>
+    <value>Done</value>
+  </data>
+  <data name="CategoriesSelection" xml:space="preserve">
+    <value>Categories Selection</value>
   </data>
 </root>
