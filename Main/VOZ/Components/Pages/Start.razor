@@ -4,7 +4,7 @@
 @page "/"
 @inherits StartBase
 
-<div class="fw-bolder pb-2">
+<div class="fw-bolder" id="start-button-div">
     <button
         class="border border-dark btn btn-primary btn-lg voz-button @StartButtonDisabled"
         @onclick="Start">
@@ -22,7 +22,7 @@
     <div class="row">
         @foreach (var category in Categories)
         {
-            <div class="col-auto pe-4 ps-0">
+            <div class="col-auto pb-4 pe-4 ps-0">
                 <div class="form-check">
                     <input
                         id="@($"{IdsPartial.CATEGORY}{category.Id}")"
