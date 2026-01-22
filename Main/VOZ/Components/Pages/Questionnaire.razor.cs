@@ -12,6 +12,10 @@ public class QuestionnaireBase : ComponentBase
 {
     private readonly List<Answer> _submittedAnswers = [];
 
+    // To be invoked when color styling should be cleared from answer buttons.
+    // Answer buttons contain a method registered to this event, setting buttons' CSS styling properly.
+    private event EventHandler? _setAnswerButtonsLightEvent;
+
     // To be invoked when a new question is displayed.
     // Answer buttons contain a method registered to this event, setting buttons' CSS styling properly.
     private event EventHandler? _newQuestionEvent;
@@ -89,12 +93,14 @@ public class QuestionnaireBase : ComponentBase
 
     protected void RegisterAnswerButton(AnswerButtonBase answerButtonBase)
     {
+        _setAnswerButtonsLightEvent += answerButtonBase.SetLight;
         _newQuestionEvent += answerButtonBase.ReactToNewQuestion;
         _submittedAnswerEvent += answerButtonBase.ReactToSubmittedAnswer;
     }
 
     protected async Task ClickPreviousQuestionButtonAsync()
     {
+        await SetAnswerButtonsLightAsync();
         var submittedAnswer = _submittedAnswers[--AnswerPointer];
         SetUpAnswer(submittedAnswer);
 
@@ -131,6 +137,8 @@ public class QuestionnaireBase : ComponentBase
         else if (AnswerPointer >= _submittedAnswers.Count)
         {
             // Display not answered question, which can, but doesn't have to, be already generated.
+            await SetAnswerButtonsLightAsync();
+
             if (_actualQuestion is not null)
             {
                 // Not answered question has been already generated.
@@ -144,12 +152,12 @@ public class QuestionnaireBase : ComponentBase
 
             SetNoVerdict();
             NextQuestionButtonDisabled = CssClasses.DISABLED;
-            await InvokeAsync(StateHasChanged);
             _newQuestionEvent?.Invoke(this, EventArgs.Empty);
         }
         else
         {
             // Display answered question from history.
+            await SetAnswerButtonsLightAsync();
             var submittedAnswer = _submittedAnswers[AnswerPointer];
             SetUpAnswer(submittedAnswer);
             await InvokeAsync(StateHasChanged);
@@ -188,6 +196,17 @@ public class QuestionnaireBase : ComponentBase
         }
 
         StateHasChanged();
+    }
+
+    private async Task SetAnswerButtonsLightAsync()
+    {
+        // Remove coloring from answer buttons by invoking the corresponding event.
+        // The slight delay prevents button coloring to briefly appear on new buttons rendered for the new question.
+        // Button styling being briefly "transferred" to new buttons is an imperfection of Blazor.
+        // It can't be eliminated by any awaiting and rerendering without the explicit delay.
+        _setAnswerButtonsLightEvent?.Invoke(this, EventArgs.Empty);
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(50);
     }
 
     private void SetUpNewQuestion()
