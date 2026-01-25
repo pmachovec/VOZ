@@ -60,7 +60,8 @@ h1:focus {
 }
 
 .voz-button {
-    min-width: 125px
+    min-width: 125px;
+    white-space: nowrap;
 }
 
 #blazor-error-ui {

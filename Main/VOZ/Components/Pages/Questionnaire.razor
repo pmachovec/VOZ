@@ -55,20 +55,20 @@
         @Verdict
     </p>
 
-    <div class="align-items-center d-flex">
+    <div>
         <button
-            class="border border-dark btn btn-lg btn-primary me-2 voz-button @PreviousQuestionButtonDisabled"
+            class="border border-dark btn btn-lg btn-primary col-auto mb-2 me-2 voz-button @PreviousQuestionButtonDisabled"
             @onclick="async () => await ClickPreviousQuestionButtonAsync()">
             @Localizer[VOZTranslations.Previous]
         </button>
 
         <button
-            class="border border-dark btn btn-lg btn-primary me-2 voz-button @NextQuestionButtonDisabled"
+            class="border border-dark btn btn-lg btn-primary col-auto mb-2 me-2 voz-button @NextQuestionButtonDisabled"
             @onclick="async () => await ClickNextQuestionButtonAsync()">
             @Localizer[VOZTranslations.Next]
         </button>
 
-        <span class="fw-bold h1-fixed mb-0 text-primary">
+        <span class="col-auto fw-bold h1-fixed mb-0 mx-0 text-primary">
             @Done
         </span>
     </div>
