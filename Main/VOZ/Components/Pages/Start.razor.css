@@ -2,9 +2,3 @@
     display: flex;
     justify-content: flex-start;
 }
-
-@media (max-width: 600px) and (orientation: portrait) {
-    #start-button-div {
-        justify-content: center;
-    }
-}
