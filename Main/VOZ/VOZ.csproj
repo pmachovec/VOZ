@@ -30,6 +30,8 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <AndroidPackageFormat>apk</AndroidPackageFormat>
+
         <!-- Android cannot be built in the Release configuration without this. -->
         <PublishTrimmed>false</PublishTrimmed>
         <RunAOTCompilation>false</RunAOTCompilation>
