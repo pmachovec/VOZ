@@ -127,14 +127,24 @@ public class QuestionnaireBase : ComponentBase
         AnswerPointer++;
         PreviousQuestionButtonDisabled = string.Empty;
 
-        if (AnswerPointer >= QuestionGenerator.QuestionsCount - 1 && !string.IsNullOrEmpty(Done))
+        if (AnswerPointer < _submittedAnswers.Count)
         {
-            // There's no next question available, keep the next question button disabled.
-            // This is reachable when answering all questions and listing through history.
-            NextQuestionButtonDisabled = CssClasses.DISABLED;
-            SetUpAnswer(_submittedAnswers[AnswerPointer]);
+            // Display answered question from history.
+            await SetAnswerButtonsLightAsync();
+
+            if (AnswerPointer >= QuestionGenerator.QuestionsCount - 1 && !string.IsNullOrEmpty(Done))
+            {
+                // There's no next question available, keep the next question button disabled.
+                // This is reachable when answering all questions and listing through history.
+                NextQuestionButtonDisabled = CssClasses.DISABLED;
+            }
+
+            var submittedAnswer = _submittedAnswers[AnswerPointer];
+            SetUpAnswer(submittedAnswer);
+            await InvokeAsync(StateHasChanged);
+            _submittedAnswerEvent?.Invoke(this, submittedAnswer);
         }
-        else if (AnswerPointer >= _submittedAnswers.Count)
+        else
         {
             // Display not answered question, which can, but doesn't have to, be already generated.
             await SetAnswerButtonsLightAsync();
@@ -153,15 +163,6 @@ public class QuestionnaireBase : ComponentBase
             SetNoVerdict();
             NextQuestionButtonDisabled = CssClasses.DISABLED;
             _newQuestionEvent?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            // Display answered question from history.
-            await SetAnswerButtonsLightAsync();
-            var submittedAnswer = _submittedAnswers[AnswerPointer];
-            SetUpAnswer(submittedAnswer);
-            await InvokeAsync(StateHasChanged);
-            _submittedAnswerEvent?.Invoke(this, submittedAnswer);
         }
     }
 
