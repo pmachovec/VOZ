@@ -37,16 +37,28 @@
         <RunAOTCompilation>false</RunAOTCompilation>
     </PropertyGroup>
 
-    <ItemGroup>
-        <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+    <!--
+    You can't simply put platform-specific icons under their folders.
+    It would require some special static files handling and additional dependencies.
+    Having them all under common resources is simpler.
+    -->
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <!--
+        App Icon for Android
+        This is the proper way of having white space around the logo in Android icon - embed it directly to the image.
+        If you try to do some sophisticated background, no matter what you try, the background will be always black.
+        -->
+        <MauiIcon Include="Resources\AppIcon\appicon_android.jpg" />
+    </ItemGroup>
 
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+        <!-- App Icon for Windows -->
+        <MauiIcon Include="Resources\AppIcon\appicon_windows.png" />
+    </ItemGroup>
+
+    <ItemGroup>
         <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
-
-        <!-- Images -->
-        <MauiImage Include="Resources\Images\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
