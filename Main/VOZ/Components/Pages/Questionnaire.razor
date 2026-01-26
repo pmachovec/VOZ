@@ -76,19 +76,19 @@
     <div class="fw-bolder pt-4">
         <table class="table table-borderless w-auto">
             <tr>
-                <td>@Localizer[VOZTranslations.QuestionsAnswered]:</td>
+                <td class="text-nowrap">@Localizer[VOZTranslations.QuestionsAnswered]:</td>
                 <td class="px-2">@QuestionsTotalCount</td>
                 <td></td>
             </tr>
 
             <tr class="@CssClasses.TEXT_SUCCESS">
-                <td>@Localizer[VOZTranslations.Correct]:</td>
+                <td class="text-nowrap">@Localizer[VOZTranslations.Correct]:</td>
                 <td class="px-2">@QuestionsCorrectCount</td>
                 <td class="px-2">@(QuestionsCorrectPercentage)%</td>
             </tr>
 
             <tr class="@CssClasses.TEXT_DANGER">
-                <td>@Localizer[VOZTranslations.Wrong]:</td>
+                <td class="text-nowrap">@Localizer[VOZTranslations.Wrong]:</td>
                 <td class="px-2">@QuestionsWrongCount</td>
                 <td class="px-2">@(QuestionsWrongPercentage)%</td>
             </tr>
