@@ -1,6 +1,8 @@
 <Project>
 
     <PropertyGroup>
+        <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
         <CentralPackageVersionsFileImported>True</CentralPackageVersionsFileImported>
         <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
         <ImplicitUsings>enable</ImplicitUsings>
