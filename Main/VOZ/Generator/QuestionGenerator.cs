@@ -25,16 +25,13 @@ internal class QuestionGenerator(VOZDbContext _vozDbContext)
     /// <returns>Empty task for the asynchronous operation.</returns>
     public async Task SetUpQuestionsAsync(CancellationToken cancellationToken)
     {
-        _questionCounter = 0;
-
-        var questionsArray = await _vozDbContext
+        _questions = await _vozDbContext
             .Questions
             .Include(question => question.Answers)
             .Include(question => question.QuestionImage)
             .ToArrayAsync(cancellationToken);
 
-        Random.Shared.Shuffle(questionsArray);
-        _questions = questionsArray;
+        _questionCounter = _questions.Length;
     }
 
     /// <summary>
@@ -53,23 +50,20 @@ internal class QuestionGenerator(VOZDbContext _vozDbContext)
             throw new ArgumentException("Empty subcategories IDs!");
         }
 
-        _questionCounter = 0;
-
-        var questionsArray = await _vozDbContext
+        _questions = await _vozDbContext
             .Questions
             .Where(question => subcategoriesIds.Contains(question.Subcategory.Id))
             .Include(question => question.Answers)
             .Include(question => question.QuestionImage)
             .ToArrayAsync(cancellationToken);
 
-        Random.Shared.Shuffle(questionsArray);
-        _questions = questionsArray;
+        _questionCounter = _questions.Length;
     }
 
     /// <summary>
-    /// Returns next question of the set up generator.
+    /// Returns next random question from the set up generator.
     /// </summary>
-    /// <returns>Next question of the set up generator.</returns>
+    /// <returns>Next random question from the set up generator.</returns>
     /// <exception cref="InvalidOperationException">
     /// Throw when setup has not been performed or when there are no more questions left.
     /// It's the responsibility of the consumer to watch the number of questions.
@@ -81,16 +75,27 @@ internal class QuestionGenerator(VOZDbContext _vozDbContext)
             throw new InvalidOperationException("Questions no set up!");
         }
 
-        if (_questionCounter >= QuestionsCount)
+        if (_questionCounter <= 0)
         {
             throw new InvalidOperationException("No more questions available!");
         }
 
-        // This is correct, '_questionCounter++' returns the initial value before the increment.
-        var question = _questions[_questionCounter++];
+        // Get random index of the remaining part of the questions array and then decrement the counter.
+        // This is correct, '_questionCounter--' returns the initial value before the decrement.
+        var randomIndex = Random.Shared.Next(_questionCounter--);
+
+        // Get the question at the random index position.
+        var question = _questions[randomIndex];
+
+        // Swap the question at the end of the remaining part with the one selected by the random index.
+        // For the swap, the question counter must be already decremented.
+        _questions[randomIndex] = _questions[_questionCounter];
+
+        // Randomly shuffle answers of the question,
         var questionAnswers = question.Answers.ToArray();
         Random.Shared.Shuffle(questionAnswers);
         question.Answers = questionAnswers;
+
         return question;
     }
 
