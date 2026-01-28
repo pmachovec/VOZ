@@ -11,6 +11,7 @@
 
 # IntelliJ
 .idea/
+**/*.DotSettings.user
 
 # Visual Studio
 .vs/

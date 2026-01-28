@@ -1,0 +1,110 @@
+@using VOZ.Components.Pages.QuestionnaireComponents
+@using VOZ.Constants
+@using VOZ.Resources.Translations
+
+@* Forget about using a constant here. You cannot incorporate a string variable to the @page directive. Put up with it. *@
+@page "/questionnaire"
+@inherits QuestionnaireBase
+
+<div class="fw-bolder" hidden="@(!IsLoading)">
+    @($"{Localizer[VOZTranslations.QuestionsLoading]}...")
+</div>
+
+<div hidden="@IsLoading">
+    <div>
+        @($"{Localizer[VOZTranslations.Question]} {AnswerPointer + 1}:")
+    </div>
+
+    <div class="fw-bolder">
+        @Text
+    </div>
+
+    @if (PotentialImage is { Image: { Length: > 0 } bytes } existingImage)
+    {
+        <div>
+            @{
+                var imageDimensions = GetImageDimensions(bytes);
+            }
+
+            <img
+                class="img-fluid"
+                src="@($"data:{existingImage.MimeType};base64,{System.Convert.ToBase64String(bytes)}")"
+                width="@(imageDimensions?.Width)"
+                height="@(imageDimensions?.Height)"
+                alt="question_image" />
+        </div>
+    }
+
+    <div class="pt-4">
+        @foreach (var answer in Answers)
+        {
+            @*
+            First, for each answer button, reaction of the questionnaire to clicking to the button is passed as a parameter.
+            Second, for each answer button, reaction of the button to the answer event from the questionnaire is registered.
+            No method can be called from here when the button is rendered and the event can't be passed to the button as a parameter
+            The method doing the job is passed to the button and invoked in OnInitialized method of the button.
+            *@
+            <AnswerButton
+                ButtonAnswer="answer"
+                ParentReactToAnswer="ReactToSubmittedAnswer"
+                RegisterAnswerButton="RegisterAnswerButton" />
+        }
+    </div>
+
+    <p class="fw-bold h1 takes-space @VerdictClass">
+        @Verdict
+    </p>
+
+    <div>
+        <button
+            class="border border-dark btn btn-lg btn-primary col-auto mb-2 me-2 voz-button @PreviousQuestionButtonDisabled"
+            @onclick="async () => await ClickPreviousQuestionButtonAsync()">
+            @Localizer[VOZTranslations.Previous]
+        </button>
+
+        <button
+            class="border border-dark btn btn-lg btn-primary col-auto mb-2 me-2 voz-button @NextQuestionButtonDisabled"
+            @onclick="async () => await ClickNextQuestionButtonAsync()">
+            @Localizer[VOZTranslations.Next]
+        </button>
+
+        <span class="align-middle col-auto fw-bold h1-fixed mb-0 mx-0 text-primary">
+            @Done
+        </span>
+    </div>
+
+    <div class="fw-bolder pt-4">
+        <table class="table table-borderless w-auto">
+            <tr>
+                <td class="text-nowrap">@Localizer[VOZTranslations.QuestionsAnswered]:</td>
+                <td class="px-2">@QuestionsTotalCount</td>
+                <td></td>
+            </tr>
+
+            <tr class="@CssClasses.TEXT_SUCCESS">
+                <td class="text-nowrap">@Localizer[VOZTranslations.Correct]:</td>
+                <td class="px-2">@QuestionsCorrectCount</td>
+                <td class="px-2">@(QuestionsCorrectPercentage)%</td>
+            </tr>
+
+            <tr class="@CssClasses.TEXT_DANGER">
+                <td class="text-nowrap">@Localizer[VOZTranslations.Wrong]:</td>
+                <td class="px-2">@QuestionsWrongCount</td>
+                <td class="px-2">@(QuestionsWrongPercentage)%</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="fw-bolder pt-4">
+        @*
+        The href="" causes Blazor to apply the 'active' class to the NavLink when on the /questionnaire route.
+        This class is applied to all links having the href value as prefix, and the empty value is prefix of everythign.
+        Applying the class causes setting the background to darker gray instead of the desired light gray.
+        The NavLinkMatch.All ensures that the class would be applied only if the current route exactly matched the href value.
+        *@
+        <NavLink class="border border-dark btn btn-light btn-lg voz-button" href="" Match="NavLinkMatch.All">
+            @Localizer[VOZTranslations.Restart]
+        </NavLink>
+    </div>
+
+</div>
