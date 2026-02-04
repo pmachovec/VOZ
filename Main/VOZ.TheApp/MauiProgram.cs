@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System.Globalization;
-using VOZ.TheApp.Components.Pages;
-using VOZ.TheApp.Database;
-using VOZ.TheApp.Generator;
+using VOZ.Shared.Extensions;
+
+#if DEBUG
+using Microsoft.Extensions.Logging;
+#endif
+
 
 namespace VOZ.TheApp;
 
@@ -19,7 +21,7 @@ public static class MauiProgram
 
         // Copy the database file to an app-dedicated folder in the current system AppData.
         // This is the accepted way of handling resources in cross-platform MAUI.
-        using (var dbAssetStream = FileSystem.OpenAppPackageFileAsync(DB_FILE_NAME).GetAwaiter().GetResult())
+        using (var dbAssetStream = FileSystem.OpenAppPackageFileAsync($"Resources/Raw/{DB_FILE_NAME}").GetAwaiter().GetResult())
         using (var dbFileStream = new FileStream(dbPath, FileMode.OpenOrCreate))
         {
             dbAssetStream.CopyTo(dbFileStream);
@@ -30,10 +32,7 @@ public static class MauiProgram
             .ConfigureFonts(fonts => fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"));
 
         builder.Services
-            .AddDbContext<VOZDbContext>(optionsBuilder => optionsBuilder.UseSqlite($"Data Source={dbPath}"))
-            .AddScoped<QuestionGenerator>()
-            .AddScoped<QuestionnaireParams>()
-            .AddLocalization()
+            .ConfigureSharedInternalDependencies(dbPath)
             .AddMauiBlazorWebView();
 
 #if DEBUG

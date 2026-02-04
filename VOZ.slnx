@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Main/">
+    <Project Path="Main/VOZ.Shared/VOZ.Shared.csproj" Id="7c376de5-ab15-4677-ad91-863820d83d9a" />
     <Project Path="Main/VOZ.TheApp/VOZ.TheApp.csproj">
       <Deploy />
     </Project>

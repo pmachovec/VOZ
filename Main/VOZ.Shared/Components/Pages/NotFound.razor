@@ -1,0 +1,10 @@
+@page "/not-found"
+
+@using VOZ.Shared.Components.Layout
+@using VOZ.Shared.Resources.Translations
+
+@inherits NotFoundBase
+@layout MainLayout
+
+<h3>@(Localizer[VOZTranslations.NotFound]).</h3>
+<p>@(Localizer[VOZTranslations.ContentDoesNotExist]).</p>

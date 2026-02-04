@@ -1,0 +1,15 @@
+@using VOZ.Shared.Resources.Translations
+
+@inherits MainLayoutBase
+
+<div class="content">
+    <main>
+        @Body
+    </main>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    <span id="unhandled-error">@Localizer[VOZTranslations.UnhandledErrorOccured]</span>.
+    <a href="." class="reload"><span id="reload">@Localizer[VOZTranslations.Reload]</span></a>
+    <span class="dismiss">🗙</span>
+</div>
