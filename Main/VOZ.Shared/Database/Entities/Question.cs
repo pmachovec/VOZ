@@ -9,9 +9,6 @@ public sealed class Question
     [Column(ColumnNames.ID)]
     public int Id { get; init; }
 
-    [Column(ColumnNames.CATEGORY_ID)]
-    public int CategoryId { get; init; }
-
     [Column(ColumnNames.SUBCATEGORY_ID)]
     public int? SubcategoryId { get; init; }
 
@@ -26,6 +23,4 @@ public sealed class Question
     public QuestionImage? QuestionImage { get; init; }
 
     public Subcategory Subcategory { get; init; } = default!;
-
-    public Category Category => Subcategory.Category;
 }
