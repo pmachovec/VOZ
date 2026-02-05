@@ -24,11 +24,12 @@
         @foreach (var category in Categories)
         {
             <div class="col-auto pb-4 pe-4 ps-0 text-nowrap">
-                <div class="form-check">
+                <div class="form-check form-switch">
                     <input
                         id="@($"{IdsPartial.CATEGORY}{category.Id}")"
                         class="form-check-input"
                         type="checkbox"
+                        role="switch"
                         checked="@IsCategorySelected(category.Id)"
                         @onchange="(e => OnCategoryChange(e, category))">
                     <label class="form-check-label fw-bolder h5" for="@($"{IdsPartial.CATEGORY}{category.Id}")">
@@ -38,11 +39,12 @@
 
                 @foreach (var subcategory in category.Subcategories)
                 {
-                    <div class="form-check">
+                    <div class="form-check form-switch">
                         <input
                             id="@($"{IdsPartial.SUBCATEGORY}{subcategory.Id}")"
                             class="form-check-input"
                             type="checkbox"
+                            role="switch"
                             checked="@IsSubcategorySelected(subcategory.Id)"
                             @onchange="(e => OnSubcategoryChange(e, subcategory))">
                         <label class="form-check-label" for="@($"{IdsPartial.SUBCATEGORY}{subcategory.Id}")">

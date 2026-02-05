@@ -31,8 +31,8 @@ public class StartBase : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         Categories = [.. await QuestionGenerator.GetCategoriesWithSubcategoriesAsync(CancellationToken.None)];
-        _selectedCategoriesIds = [.. Categories.Select(c => c.Id)];
-        _selectedSubcategoriesIds = [.. Categories.SelectMany(c => c.Subcategories).Select(sc => sc.Id)];
+        _selectedCategoriesIds = [];
+        _selectedSubcategoriesIds = [];
         DisableStartButtonWhenNoSubcategoriesSelected();
     }
 
