@@ -4,6 +4,7 @@ using VOZ.Shared.Components.Pages.Constants;
 using VOZ.Shared.Database.Entities;
 using VOZ.Shared.Generator;
 using VOZ.Shared.Resources.Translations;
+using VOZ.Shared.Services;
 
 namespace VOZ.Shared.Components.Pages;
 
@@ -13,13 +14,16 @@ public class StartBase : ComponentBase
     private HashSet<int> _selectedSubcategoriesIds = default!;
 
     [Inject]
+    private ICategoryService CategoryService { get; set; } = default!;
+
+    [Inject]
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
 
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject]
-    private QuestionGenerator QuestionGenerator { get; set; } = default!;
+    private IQuestionGenerator QuestionGenerator { get; set; } = default!;
 
     [Inject]
     private QuestionnaireParams QuestionnaireParams { get; set; } = default!;
@@ -30,7 +34,7 @@ public class StartBase : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        Categories = [.. await QuestionGenerator.GetCategoriesWithSubcategoriesAsync(CancellationToken.None)];
+        Categories = [.. await CategoryService.GetCategoriesWithSubcategoriesAsync(CancellationToken.None)];
         _selectedCategoriesIds = [];
         _selectedSubcategoriesIds = [];
         DisableStartButtonWhenNoSubcategoriesSelected();

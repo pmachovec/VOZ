@@ -30,7 +30,7 @@ public class QuestionnaireBase : ComponentBase
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
 
     [Inject]
-    private QuestionGenerator QuestionGenerator { get; set; } = default!;
+    private IQuestionGenerator QuestionGenerator { get; set; } = default!;
 
     [Inject]
     private QuestionnaireParams QuestionnaireParams { get; set; } = default!;

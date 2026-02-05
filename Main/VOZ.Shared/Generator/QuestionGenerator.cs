@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using VOZ.Shared.Database;
 using VOZ.Shared.Database.Entities;
+using VOZ.Shared.Services;
 
 namespace VOZ.Shared.Generator;
 
-internal class QuestionGenerator(VOZDbContext _vozDbContext)
+internal class QuestionGenerator(IQuestionService _questionService) : IQuestionGenerator
 {
     private Question[]? _questions;
     private int _questionCounter;
@@ -15,8 +15,7 @@ internal class QuestionGenerator(VOZDbContext _vozDbContext)
     /// <exception cref="InvalidOperationException">
     /// Throw when setup has not been performed.
     /// </exception>
-    public int QuestionsCount =>
-        _questions?.Length ?? throw new InvalidOperationException("Questions no set up!");
+    public int QuestionsCount => _questions?.Length ?? throw new InvalidOperationException("Questions no set up!");
 
     /// <summary>
     /// Sets up the generator with all questions from the database.
@@ -25,12 +24,7 @@ internal class QuestionGenerator(VOZDbContext _vozDbContext)
     /// <returns>Empty task for the asynchronous operation.</returns>
     public async Task SetUpQuestionsAsync(CancellationToken cancellationToken)
     {
-        _questions = await _vozDbContext
-            .Questions
-            .Include(question => question.Answers)
-            .Include(question => question.QuestionImage)
-            .ToArrayAsync(cancellationToken);
-
+        _questions = await _questionService.GetQuestionsWithAnswersAndImagesAsync(cancellationToken);
         _questionCounter = _questions.Length;
     }
 
@@ -50,13 +44,7 @@ internal class QuestionGenerator(VOZDbContext _vozDbContext)
             throw new ArgumentException("Empty subcategories IDs!");
         }
 
-        _questions = await _vozDbContext
-            .Questions
-            .Where(question => subcategoriesIds.Contains(question.Subcategory.Id))
-            .Include(question => question.Answers)
-            .Include(question => question.QuestionImage)
-            .ToArrayAsync(cancellationToken);
-
+        _questions = await _questionService.GetQuestionsWithAnswersAndImagesAsync(subcategoriesIds, cancellationToken);
         _questionCounter = _questions.Length;
     }
 
@@ -97,31 +85,5 @@ internal class QuestionGenerator(VOZDbContext _vozDbContext)
         question.Answers = questionAnswers;
 
         return question;
-    }
-
-    /// <summary>
-    /// Returns available categories of questions, which have at least one subcategory.
-    /// </summary>
-    /// <param name="cancellationToken">Cancellation token for the asynchronous operation.</param>
-    /// <returns>Task with available categories of questions.</returns>
-    /// <exception cref="InvalidDataException">
-    /// Throw when no categories with subcategories are available in the database.
-    /// </exception>
-    public async Task<IEnumerable<Category>> GetCategoriesWithSubcategoriesAsync(CancellationToken cancellationToken)
-    {
-        if (!_vozDbContext.Categories.Any())
-        {
-            throw new InvalidDataException("No categories available in the database!");
-        }
-
-        var categoriesWithSubcategories = await _vozDbContext
-            .Categories
-            .Where(category => category.Subcategories.Count > 0)
-            .Include(category => category.Subcategories)
-            .ToArrayAsync(cancellationToken);
-
-        return categoriesWithSubcategories.Length == 0
-            ? throw new InvalidDataException("No categories with subcategories available in the database!")
-            : categoriesWithSubcategories;
     }
 }

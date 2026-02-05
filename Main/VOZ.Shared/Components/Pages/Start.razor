@@ -24,7 +24,7 @@
         @foreach (var category in Categories)
         {
             <div class="col-auto pb-4 pe-4 ps-0 text-nowrap">
-                <div class="form-check form-switch">
+                <div class="form-check form-switch py-3">
                     <input
                         id="@($"{IdsPartial.CATEGORY}{category.Id}")"
                         class="form-check-input"
@@ -39,7 +39,7 @@
 
                 @foreach (var subcategory in category.Subcategories)
                 {
-                    <div class="form-check form-switch">
+                    <div class="form-check form-switch py-1">
                         <input
                             id="@($"{IdsPartial.SUBCATEGORY}{subcategory.Id}")"
                             class="form-check-input"
