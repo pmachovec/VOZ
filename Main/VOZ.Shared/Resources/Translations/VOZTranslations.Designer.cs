@@ -106,6 +106,15 @@ namespace VOZ.Shared.Resources.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading.
+        /// </summary>
+        public static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string Next {
@@ -156,15 +165,6 @@ namespace VOZ.Shared.Resources.Translations {
         public static string QuestionsAnswered {
             get {
                 return ResourceManager.GetString("QuestionsAnswered", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Questions loading.
-        /// </summary>
-        public static string QuestionsLoading {
-            get {
-                return ResourceManager.GetString("QuestionsLoading", resourceCulture);
             }
         }
         

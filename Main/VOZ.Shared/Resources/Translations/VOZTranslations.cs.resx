@@ -120,8 +120,8 @@
   <data name="StartTest" xml:space="preserve">
     <value>Spustit test</value>
   </data>
-  <data name="QuestionsLoading" xml:space="preserve">
-    <value>Načítání otázek</value>
+  <data name="Loading" xml:space="preserve">
+    <value>Načítání</value>
   </data>
   <data name="Question" xml:space="preserve">
     <value>Otázka</value>

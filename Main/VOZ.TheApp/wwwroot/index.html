@@ -8,7 +8,6 @@
         <base href="/" />
         <link rel="stylesheet" href="_content/VOZ.Shared/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="_content/VOZ.Shared/app.css" />
-        <link rel="stylesheet" href="app.css" />
         <link rel="stylesheet" href="VOZ.TheApp.styles.css" />
         <link rel="icon" href="data:,">
     </head>
@@ -17,8 +16,15 @@
         <div class="status-bar-safe-area"></div>
 
         <div id="app">
-            <div class="content fw-bolder">
-                <span id="preparation">Loading</span>...
+            <div class="min-vh-100 d-flex align-items-center justify-content-center">
+                <h3 class="fw-bold">
+                    <span id="loading">Loading</span>...
+                    <!--
+                    Do not use HTML entity '&hellip;' for three dots.
+                    It's slightly higher than letters and looks awful.
+                    -->
+                </h3>
+                <!-- Do not use a spinner here, it's laggy on Android. -->
             </div>
         </div>
 

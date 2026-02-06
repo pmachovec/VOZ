@@ -1,11 +1,11 @@
-﻿// IIFE - Immediately Invoked Function Expression
+// IIFE - Immediately Invoked Function Expression
 // * Encapsulates variables, preventing conflicts with global variables.
 // * One-time initialization, ideal for one-time tasks like this.
 (() => {
     // Maps of translations
-    const preparationTranslations = {
-        en: 'Preparation',
-        cs: 'Příprava'
+    const loadingTranslations = {
+        en: 'Loading',
+        cs: 'Načítání'
     };
 
     const reloadTranslations = {
@@ -27,13 +27,13 @@
         for (const l of langs) {
             const lc = l.toLowerCase();
 
-            if (preparationTranslations[lc]) {
+            if (loadingTranslations[lc]) {
                 return lc;
             }
 
             const base = lc.split('-')[0];
 
-            if (preparationTranslations[base]) {
+            if (loadingTranslations[base]) {
                 return base;
             }
         }
@@ -50,7 +50,7 @@
     }
 
     const lang = pickLang();
-    setTextContent(lang, 'preparation', preparationTranslations);
+    setTextContent(lang, 'loading', loadingTranslations);
     setTextContent(lang, 'reload', reloadTranslations);
     setTextContent(lang, 'unhandled-error', unhandledErrorTranslations);
 })();

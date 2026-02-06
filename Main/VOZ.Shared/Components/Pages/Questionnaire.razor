@@ -8,11 +8,27 @@
 @page "/questionnaire"
 @inherits QuestionnaireBase
 
-<div class="fw-bolder" hidden="@(!IsLoading)">
-    @($"{Localizer[VOZTranslations.QuestionsLoading]}...")
-</div>
+@if (IsLoading)
+{
+    <div class="min-vh-100 d-flex align-items-center justify-content-center">
+        <h3 class="fw-bold">
+            @($"{Localizer[VOZTranslations.Loading]}...")
+            <!--
+            Do not use HTML entity '&hellip;' for three dots.
+            It's slightly higher than letters and looks awful.
+            -->
+        </h3>
+        <!-- Do not use a spinner here, it's laggy on Android. -->
+    </div>
+}
+else
+{
 
-<div hidden="@IsLoading">
+@*
+Extra bottom margin is necessary for phones that use virtual navigation buttons (which is typical).
+On such phones, the Restart button is partially covered by the navigation buttons.
+*@
+<div class="mb-5 p-5">
     <div>
         @($"{Localizer[VOZTranslations.Question]} {AnswerPointer + 1}:")
     </div>
@@ -108,5 +124,5 @@
             @Localizer[VOZTranslations.Restart]
         </NavLink>
     </div>
-
 </div>
+}
