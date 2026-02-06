@@ -26,6 +26,9 @@ h1:focus {
     border-color: #1861ac;
 }
 
+/*
+Extra bottom margin is necessary for phones that use virtual navigation buttons (which is typical).
+*/
 .content {
     margin-bottom: 3rem;
     padding: 3rem;

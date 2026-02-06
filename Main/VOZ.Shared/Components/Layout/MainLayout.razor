@@ -2,7 +2,11 @@
 
 @inherits MainLayoutBase
 
-<div class="content">
+@*
+d-inline-block = Minimum widh fits to content.
+min-vw-100 = Minimum width is 100% of viewport width. This prevents the content from being squeezed when the screen is wide.
+*@
+<div class="content d-inline-block min-vw-100">
     <main>
         @Body
     </main>
