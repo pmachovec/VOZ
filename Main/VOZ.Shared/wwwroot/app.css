@@ -34,8 +34,9 @@ h1:focus {
     outline: 1px solid #e50000;
 }
 
+/* Keep a fixed size regardless of viewport width. */
 .h1-fixed {
-    font-size: 2.5rem !important; /* keep a fixed size regardless of viewport width */
+    font-size: 2.5rem !important;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
