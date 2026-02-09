@@ -34,7 +34,7 @@
     opacity: 100%;
 }
 
-/* Bullet inside switch is always white. */
+/* Keep the bullet inside the switch always white. */
 .form-switch .form-check-input,
 .form-switch .form-check-input:focus,
 .form-switch .form-check-input:checked {
