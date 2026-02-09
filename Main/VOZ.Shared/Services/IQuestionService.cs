@@ -6,5 +6,5 @@ internal interface IQuestionService
 {
     Task<Question[]> GetQuestionsWithAnswersAndImagesAsync(CancellationToken cancellationToken);
 
-    Task<Question[]> GetQuestionsWithAnswersAndImagesAsync(HashSet<int> subcategoriesIds, CancellationToken cancellationToken);
+    Task<Question[]> GetQuestionsWithAnswersAndImagesAsync(ISet<int> subcategoriesIds, CancellationToken cancellationToken);
 }

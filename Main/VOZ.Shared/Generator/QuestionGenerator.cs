@@ -37,7 +37,7 @@ internal class QuestionGenerator(IQuestionService _questionService) : IQuestionG
     /// <exception cref="ArgumentException">
     /// Throw when the subcategoriesIds set is empty.
     /// </exception>
-    public async Task SetUpQuestionsAsync(HashSet<int> subcategoriesIds, CancellationToken cancellationToken)
+    public async Task SetUpQuestionsAsync(ISet<int> subcategoriesIds, CancellationToken cancellationToken)
     {
         if (subcategoriesIds.Count == 0)
         {

@@ -25,7 +25,7 @@ internal sealed class QuestionService(VOZDbContext _vozDbContext) :IQuestionServ
             .ToArrayAsync(cancellationToken);
     }
 
-    public async Task<Question[]> GetQuestionsWithAnswersAndImagesAsync(HashSet<int> subcategoriesIds, CancellationToken cancellationToken)
+    public async Task<Question[]> GetQuestionsWithAnswersAndImagesAsync(ISet<int> subcategoriesIds, CancellationToken cancellationToken)
     {
         if (!_vozDbContext.Questions.Any())
         {

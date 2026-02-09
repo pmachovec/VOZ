@@ -8,7 +8,7 @@ internal interface IQuestionGenerator
 
     Task SetUpQuestionsAsync(CancellationToken cancellationToken);
 
-    Task SetUpQuestionsAsync(HashSet<int> subcategoriesIds, CancellationToken cancellationToken);
+    Task SetUpQuestionsAsync(ISet<int> subcategoriesIds, CancellationToken cancellationToken);
 
     Question GetNextQuestion();
 }
