@@ -8,7 +8,7 @@ internal sealed class CategoryService(VOZDbContext _vozDbContext) : ICategorySer
 {
     public async Task<IEnumerable<Category>> GetCategoriesWithSubcategoriesAsync(CancellationToken cancellationToken)
     {
-        if (!_vozDbContext.Categories.Any())
+        if (!await _vozDbContext.Categories.AnyAsync(cancellationToken))
         {
             throw new InvalidDataException("No categories available in the database!");
         }

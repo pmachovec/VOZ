@@ -9,11 +9,11 @@ namespace VOZ.Shared.Services;
     "IDE0046:Convert to conditional expression",
     Justification = "It makes the code hard to read."
 )]
-internal sealed class QuestionService(VOZDbContext _vozDbContext) :IQuestionService
+internal sealed class QuestionService(VOZDbContext _vozDbContext) : IQuestionService
 {
     public async Task<Question[]> GetQuestionsWithAnswersAndImagesAsync(CancellationToken cancellationToken)
     {
-        if (!_vozDbContext.Questions.Any())
+        if (!await _vozDbContext.Questions.AnyAsync(cancellationToken))
         {
             throw new InvalidDataException("No questions available in the database!");
         }
@@ -27,7 +27,7 @@ internal sealed class QuestionService(VOZDbContext _vozDbContext) :IQuestionServ
 
     public async Task<Question[]> GetQuestionsWithAnswersAndImagesAsync(ISet<int> subcategoriesIds, CancellationToken cancellationToken)
     {
-        if (!_vozDbContext.Questions.Any())
+        if (!await _vozDbContext.Questions.AnyAsync(cancellationToken))
         {
             throw new InvalidDataException("No questions available in the database!");
         }
