@@ -5,7 +5,7 @@
         <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
         <ImplicitUsings>enable</ImplicitUsings>
         <ManagePackageVersionsCentrally>True</ManagePackageVersionsCentrally>
-        <NeutralLanguage>en-US</NeutralLanguage>
+        <NeutralLanguage>en</NeutralLanguage>
         <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
         <Nullable>enable</Nullable>
         <RootNamespace>$(MSBuildProjectName)</RootNamespace>

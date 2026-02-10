@@ -29,11 +29,21 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <!-- Packaging -->
         <AndroidPackageFormat>apk</AndroidPackageFormat>
+        <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
 
-        <!-- Android cannot be built in the Release configuration without this. -->
-        <PublishTrimmed>false</PublishTrimmed>
+        <!-- Size trim -->
+        <AndroidEnableR8>true</AndroidEnableR8>
+        <PublishTrimmed>true</PublishTrimmed>
         <RunAOTCompilation>false</RunAOTCompilation>
+        <SatelliteResourceLanguages>en;cs</SatelliteResourceLanguages>
+
+        <!-- Remove debug symbols -->
+        <AndroidIncludeDebugSymbols>false</AndroidIncludeDebugSymbols>
+        <AndroidStripNativeDebugSymbols>true</AndroidStripNativeDebugSymbols>
+        <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+        <DebugType>none</DebugType>
     </PropertyGroup>
 
     <!--

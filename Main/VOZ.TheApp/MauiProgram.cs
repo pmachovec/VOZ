@@ -15,7 +15,8 @@ public static class MauiProgram
 
     public static MauiApp CreateMauiApp()
     {
-        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("cs-CZ");
+        // Do not use cs-CZ or similar 4-letter culture, it causes troubles in Android.
+        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("cs");
         var builder = MauiApp.CreateBuilder();
         var dbPath = Path.Combine(FileSystem.AppDataDirectory, DB_FILE_NAME);
 
