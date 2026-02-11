@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
 
-@* Forget about using a constant here. You cannot incorporate a string variable to the @page directive. Put up with it. *@
+@* Forget about using a constant here. You cannot incorporate a string variable to the @page directive. *@
 @page "/questionnaire"
 @inherits QuestionnaireBase
 
@@ -21,11 +21,9 @@
 else
 {
 
-@*
-Extra bottom margin is necessary for phones that use virtual navigation buttons (which is typical).
-On such phones, the Restart button is partially covered by the navigation buttons.
-*@
 <div class="mb-5 p-5">
+    <hr />
+
     <div>
         @($"{Localizer[VOZTranslations.Question]} {AnswerPointer + 1}:")
     </div>

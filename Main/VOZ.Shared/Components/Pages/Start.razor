@@ -5,15 +5,12 @@
 @page "/"
 @inherits StartBase
 
-<div class="p-5">
-    <div class="fw-bolder" id="start-button-div">
-        <button
-            class="border border-dark btn btn-primary btn-lg voz-button @StartButtonDisabled"
-            @onclick="Start">
-            @Localizer[VOZTranslations.StartTest]
-        </button>
-    </div>
-
+@*
+Extra bottom margin is necessary for phones that use virtual navigation buttons (which is typical).
+On such phones, buttos at the bottom of the screen can get partially covered by the navigation buttons.
+Do not put it to the main layout or index.html, it messes loading screens.
+*@
+<div class="mb-5 p-5">
     <hr />
 
     <div class="fw-bolder h3 pb-4 text-nowrap">
@@ -24,7 +21,7 @@
         <div class="row">
             @foreach (var category in Categories)
             {
-                <div class="col-auto pb-4 pe-4 ps-0 text-nowrap">
+                <div class="col-auto pb-4 px-0 text-nowrap">
                     <div class="form-check form-switch form-switch-scalable py-3">
                         <input
                             id="@($"{IdsPartial.CATEGORY}{category.Id}")"
@@ -56,5 +53,14 @@
                 </div>
             }
         </div>
+    </div>
+
+    <hr />
+
+    <div class="fw-bolder" id="start-button-div">
+        <button class="border border-dark btn btn-primary btn-lg voz-button @StartButtonDisabled"
+                @onclick="Start">
+            @Localizer[VOZTranslations.StartTest]
+        </button>
     </div>
 </div>
