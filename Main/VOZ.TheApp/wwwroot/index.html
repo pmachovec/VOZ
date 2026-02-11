@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 
+<!--
+Do not move this to Shared, although it could be reused by a WebAssembly project.
+There's no way how to properly reference it from Shared.
+Each project must have this file among its wwwroot files, even when the content is identical.
+-->
+
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -14,8 +20,6 @@
     </head>
 
     <body>
-        <div class="status-bar-safe-area"></div>
-
         <div id="app">
             <div class="min-vh-100 d-flex align-items-center justify-content-center">
                 <h3 class="fw-bold">
