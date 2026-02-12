@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <AssemblyName>VOZ</AssemblyName>
+        <EnableDefaultCssItems>false</EnableDefaultCssItems>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>VOZ.TheApp</RootNamespace>
+        <SingleProject>true</SingleProject>
+        <TargetFrameworks>net10.0-android</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+        <UseMaui>true</UseMaui>
+
+        <!-- Display name -->
+        <ApplicationTitle>VOZ</ApplicationTitle>
+
+        <!-- App Identifier -->
+        <ApplicationId>com.pmachovec.voz</ApplicationId>
+
+        <!-- Versions -->
+        <ApplicationDisplayVersion>1.1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>2</ApplicationVersion>
+
+        <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+        <WindowsPackageType>None</WindowsPackageType>
+
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release' and $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <!-- Packaging -->
+        <AndroidPackageFormat>apk</AndroidPackageFormat>
+        <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
+
+        <!-- Size trim -->
+        <AndroidEnableR8>true</AndroidEnableR8>
+        <PublishTrimmed>true</PublishTrimmed>
+        <RunAOTCompilation>false</RunAOTCompilation>
+        <SatelliteResourceLanguages>en;cs</SatelliteResourceLanguages>
+
+        <!-- Remove debug symbols -->
+        <AndroidIncludeDebugSymbols>false</AndroidIncludeDebugSymbols>
+        <AndroidStripNativeDebugSymbols>true</AndroidStripNativeDebugSymbols>
+        <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+        <DebugType>none</DebugType>
+    </PropertyGroup>
+
+    <!--
+    You can't simply put platform-specific icons under their folders.
+    It would require some special static files handling and additional dependencies.
+    Having them all under common resources is simpler.
+    -->
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <!--
+        App Icon for Android
+        This is the proper way of having white space around the logo in Android icon - embed it directly to the image.
+        If you try to do some sophisticated background, no matter what you try, the background will be always black.
+        -->
+        <MauiIcon Include="Resources\AppIcon\appicon_android.jpg" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">
+        <!-- App Icon for Windows -->
+        <MauiIcon Include="Resources\AppIcon\appicon_windows.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Splash Screen -->
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <MauiAsset Include="..\VOZ.Shared\Resources\Raw\voz.sqlite" Link="Resources\Raw\voz.sqlite" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+        <PackageReference Include="Microsoft.Maui.Controls" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\VOZ.Shared\VOZ.Shared.csproj" />
+    </ItemGroup>
+
+</Project>

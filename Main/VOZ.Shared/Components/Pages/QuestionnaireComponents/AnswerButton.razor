@@ -1,0 +1,12 @@
+@using Microsoft.AspNetCore.Components.Web
+@using System.Globalization
+
+@inherits AnswerButtonBase
+
+<div class="pb-4 w-100">
+    <button
+        class="border border-dark btn text-start w-100 @ButtonClass @ButtonDisabled"
+        @onclick="() => ParentReactToAnswer(ButtonAnswer)">
+        @(char.ToUpper(ButtonAnswer.Text[0], CultureInfo.InvariantCulture) + ButtonAnswer.Text[1..])
+    </button>
+</div>
