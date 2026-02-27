@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using VOZ.Shared.Components.Pages;
 using VOZ.Shared.Database;
 using VOZ.Shared.Generator;
-using VOZ.Shared.Services;
+using VOZ.Shared.Repositories;
 
 namespace VOZ.Shared.Extensions;
 
@@ -13,8 +13,8 @@ public static class ServiceCollectionExtensions
         services
             .AddDbContext<VOZDbContext>(optionsBuilder => optionsBuilder.UseSqlite($"Data Source={dbPath}"))
             .AddLocalization(options => options.ResourcesPath = "Resources")
-            .AddScoped<ICategoryService, CategoryService>()
-            .AddScoped<IQuestionService, QuestionService>()
+            .AddScoped<ICategoryRepository, CategoryRepository>()
+            .AddScoped<IQuestionRepository, QuestionRepository>()
             .AddScoped<IQuestionGenerator, QuestionGenerator>()
             .AddScoped<QuestionnaireParams>();
 }

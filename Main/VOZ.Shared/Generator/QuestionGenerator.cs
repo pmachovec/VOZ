@@ -1,10 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using VOZ.Shared.Database.Entities;
-using VOZ.Shared.Services;
+using VOZ.Shared.Repositories;
 
 namespace VOZ.Shared.Generator;
 
-internal class QuestionGenerator(IQuestionService _questionService) : IQuestionGenerator
+internal class QuestionGenerator(IQuestionRepository _questionRepository) : IQuestionGenerator
 {
     private Question[]? _questions;
     private int _questionCounter;
@@ -24,7 +23,7 @@ internal class QuestionGenerator(IQuestionService _questionService) : IQuestionG
     /// <returns>Empty task for the asynchronous operation.</returns>
     public async Task SetUpQuestionsAsync(CancellationToken cancellationToken)
     {
-        _questions = await _questionService.GetQuestionsWithAnswersAndImagesAsync(cancellationToken);
+        _questions = await _questionRepository.GetQuestionsWithAnswersAndImagesAsync(cancellationToken);
         _questionCounter = _questions.Length;
     }
 
@@ -44,7 +43,7 @@ internal class QuestionGenerator(IQuestionService _questionService) : IQuestionG
             throw new ArgumentException("Empty subcategories IDs!");
         }
 
-        _questions = await _questionService.GetQuestionsWithAnswersAndImagesAsync(subcategoriesIds, cancellationToken);
+        _questions = await _questionRepository.GetQuestionsWithAnswersAndImagesAsync(subcategoriesIds, cancellationToken);
         _questionCounter = _questions.Length;
     }
 

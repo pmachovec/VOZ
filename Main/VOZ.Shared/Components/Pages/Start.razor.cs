@@ -3,8 +3,8 @@ using Microsoft.Extensions.Localization;
 using VOZ.Shared.Components.Pages.Constants;
 using VOZ.Shared.Database.Entities;
 using VOZ.Shared.Generator;
+using VOZ.Shared.Repositories;
 using VOZ.Shared.Resources.Translations;
-using VOZ.Shared.Services;
 
 namespace VOZ.Shared.Components.Pages;
 
@@ -14,7 +14,7 @@ public class StartBase : ComponentBase
     private HashSet<int> _selectedSubcategoriesIds = default!;
 
     [Inject]
-    private ICategoryService CategoryService { get; set; } = default!;
+    private ICategoryRepository CategoryRepository { get; set; } = default!;
 
     [Inject]
     protected IStringLocalizer<VOZTranslations> Localizer { get; set; } = default!;
@@ -34,7 +34,7 @@ public class StartBase : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        Categories = [.. await CategoryService.GetCategoriesWithSubcategoriesAsync(CancellationToken.None)];
+        Categories = [.. await CategoryRepository.GetCategoriesWithSubcategoriesAsync(CancellationToken.None)];
         _selectedCategoriesIds = [];
         _selectedSubcategoriesIds = [];
         DisableStartButtonWhenNoSubcategoriesSelected();
