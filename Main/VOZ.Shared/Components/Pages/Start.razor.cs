@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using VOZ.Shared.Components.Pages.Constants;
 using VOZ.Shared.Database.Entities;
-using VOZ.Shared.Generator;
+using VOZ.Shared.Application;
 using VOZ.Shared.Repositories;
 using VOZ.Shared.Resources.Translations;
 

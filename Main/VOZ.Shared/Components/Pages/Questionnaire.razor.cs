@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
+using VOZ.Shared.Application;
 using VOZ.Shared.Components.Pages.Constants;
 using VOZ.Shared.Components.Pages.QuestionnaireComponents;
 using VOZ.Shared.Database.Entities;
-using VOZ.Shared.Generator;
 using VOZ.Shared.Resources.Translations;
 
 namespace VOZ.Shared.Components.Pages;
