@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using VOZ.Shared.Application;
-using VOZ.Shared.Components.Pages;
 using VOZ.Shared.Database;
+using VOZ.Shared.Presentation.Pages;
 using VOZ.Shared.Repositories;
 
 namespace VOZ.Shared.Extensions;
