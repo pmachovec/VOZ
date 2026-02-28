@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using VOZ.Shared.Database.Entities;
 using VOZ.Shared.Presentation.Constants;
 
-namespace VOZ.Shared.Presentation.Pages.QuestionnaireComponents;
+namespace VOZ.Shared.Presentation.Pages.QuestionnaireComponents.QuestionningComponents;
 
 public class AnswerButtonBase : ComponentBase
 {
