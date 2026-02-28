@@ -187,11 +187,11 @@ namespace VOZ.Shared.Resources.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start test.
+        ///   Looks up a localized string similar to Start.
         /// </summary>
-        public static string StartTest {
+        public static string Start {
             get {
-                return ResourceManager.GetString("StartTest", resourceCulture);
+                return ResourceManager.GetString("Start", resourceCulture);
             }
         }
         
