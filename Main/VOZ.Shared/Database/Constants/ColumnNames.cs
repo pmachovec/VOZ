@@ -9,7 +9,6 @@ public static class ColumnNames
     public const string LABEL = "label";
     public const string MIME_TYPE = "mime_type";
     public const string NAME = "name";
-    public const string PAGE_NUMBER = "page_number";
     public const string QUESTION_ID = "question_id";
     public const string SUBCATEGORY_ID = "subcategory_id";
     public const string TEXT = "text";
