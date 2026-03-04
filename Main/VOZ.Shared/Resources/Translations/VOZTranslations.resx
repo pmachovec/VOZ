@@ -168,4 +168,7 @@
   <data name="ContentDoesNotExist" xml:space="preserve">
     <value>The content you are looking for does not exist</value>
   </data>
+  <data name="QuestionsTotal" xml:space="preserve">
+    <value>Questions total</value>
+  </data>
 </root>

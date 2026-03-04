@@ -168,4 +168,7 @@
   <data name="ContentDoesNotExist" xml:space="preserve">
     <value>Obsah, který hledáte, neexistuje</value>
   </data>
+  <data name="QuestionsTotal" xml:space="preserve">
+    <value>Otázek celkem</value>
+  </data>
 </root>

@@ -169,6 +169,15 @@ namespace VOZ.Shared.Resources.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Questions total.
+        /// </summary>
+        public static string QuestionsTotal {
+            get {
+                return ResourceManager.GetString("QuestionsTotal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reload.
         /// </summary>
         public static string Reload {

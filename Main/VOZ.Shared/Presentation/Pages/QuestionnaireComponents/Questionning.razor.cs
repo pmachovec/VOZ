@@ -44,11 +44,13 @@ public class QuestionningBase : ComponentBase
 
     protected string PreviousQuestionButtonDisabled { get; private set; } = CssClasses.DISABLED;
 
+    protected int QuestionsAnsweredCount { get; private set; }
+
     protected int QuestionsCorrectCount { get; private set; }
 
     protected int QuestionsCorrectPercentage { get; private set; }
 
-    protected int QuestionsTotalCount { get; private set; }
+    protected int QuestionsTotalCount => QuestionGenerator.QuestionsCount;
 
     protected int QuestionsWrongCount { get; private set; }
 
@@ -118,7 +120,7 @@ public class QuestionningBase : ComponentBase
             // Display answered question from history.
             await SetAnswerButtonsLightAsync();
 
-            if (AnswerPointer >= QuestionGenerator.QuestionsCount - 1 && !string.IsNullOrEmpty(Done))
+            if (AnswerPointer >= QuestionsTotalCount - 1 && !string.IsNullOrEmpty(Done))
             {
                 // There's no next question available, keep the next question button disabled.
                 // This is reachable when answering all questions and listing through history.
@@ -167,12 +169,12 @@ public class QuestionningBase : ComponentBase
 
         _submittedAnswers.Add(submittedAnswer);
         _submittedAnswerEvent?.Invoke(this, submittedAnswer);
-        QuestionsTotalCount++;
-        QuestionsCorrectPercentage = (int)Math.Round(QuestionsCorrectCount * 100 / (float)QuestionsTotalCount, MidpointRounding.AwayFromZero);
+        QuestionsAnsweredCount++;
+        QuestionsCorrectPercentage = (int)Math.Round(QuestionsCorrectCount * 100 / (float)QuestionsAnsweredCount, MidpointRounding.AwayFromZero);
         QuestionsWrongPercentage = 100 - QuestionsCorrectPercentage;
         _actualQuestion = null;
 
-        if (QuestionsTotalCount < QuestionGenerator.QuestionsCount)
+        if (QuestionsAnsweredCount < QuestionsTotalCount)
         {
             NextQuestionButtonDisabled = string.Empty;
         }
