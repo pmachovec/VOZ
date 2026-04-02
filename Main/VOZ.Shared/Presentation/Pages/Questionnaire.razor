@@ -1,0 +1,14 @@
+@using VOZ.Shared.Presentation.Pages.QuestionnaireComponents
+
+@* Forget about using a constant here. You cannot incorporate a string variable to the @page directive. *@
+@page "/questionnaire"
+@inherits QuestionnaireBase
+
+@if (IsLoading)
+{
+    <Loading />
+}
+else
+{
+    <Questionning />
+}

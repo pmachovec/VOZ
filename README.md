@@ -16,6 +16,13 @@ Soubory ke stažení jsou k dispozici pod releasem.
 **Ostatní**
 * Přejděte na Windows nebo Android a postupujte podle předchozích bodů :-P
 
+### Změny ve verzi 2.0.0
+* **POZOR! Update aplikace není možný. Je nutné manuálně odinstalovat starou verzi aplikace.**
+* Změna podpisokvého klíče aplikace => nutnost odinstalace staré verze.
+* Aktualizace otázek v databázi.
+* Změna textu tlačítka Start.
+* Test zobrazuje celkový počet otázek ke zodpovězení.
+* Další změny ve vnitřní struktuře kódu, viz release.
 
 ### Změny ve verzi 1.1.0
 * Větší text zarovnaný na střed na načítacích obrazovkách.
